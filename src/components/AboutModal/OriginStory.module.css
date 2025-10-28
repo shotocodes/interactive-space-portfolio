@@ -1,0 +1,204 @@
+/* components/AboutModal/OriginStory.module.css */
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #141414;
+  padding: 100px 40px;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景粒子エフェクト */
+.particleBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(30px);
+    opacity: 0;
+  }
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* タイプライターヘッディング */
+.typewriterHeading {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0.05em;
+  min-height: 3.5rem;
+}
+
+.cursor {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 100;
+}
+
+.cursorBlink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+/* セクションタイトル */
+.sectionTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 60px;
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  opacity: 0;
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ストーリーコンテンツ */
+.storyContent {
+  opacity: 0;
+}
+
+.storyBlock {
+  margin-bottom: 60px;
+}
+
+.storyText {
+  font-size: 1.2rem;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 300;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.highlight {
+  color: white;
+  font-weight: 500;
+  position: relative;
+}
+
+/* 引用ブロック */
+.quote {
+  font-size: 1.8rem;
+  font-weight: 300;
+  font-style: italic;
+  color: white;
+  text-align: center;
+  padding: 50px 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 60px 0;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+  .typewriterHeading {
+    font-size: 2rem;
+  }
+
+  .storyText {
+    font-size: 1.1rem;
+  }
+
+  .quote {
+    font-size: 1.5rem;
+    padding: 40px 30px;
+  }
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 20px;
+  }
+
+  .typewriterHeading {
+    font-size: 1.6rem;
+    min-height: 2.5rem;
+  }
+
+  .sectionTitle {
+    margin-bottom: 40px;
+  }
+
+  .storyText {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .quote {
+    font-size: 1.3rem;
+    padding: 35px 20px;
+    margin: 40px 0;
+  }
+
+  .storyBlock {
+    margin-bottom: 40px;
+  }
+}

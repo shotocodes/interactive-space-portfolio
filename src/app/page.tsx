@@ -1,103 +1,118 @@
-import Image from "next/image";
+// app/page.tsx
+'use client';
+
+import { useEffect } from 'react';
+import ThreeCanvas from '@/components/ThreeCanvas';
+import CustomCursor from '@/components/CustomCursor';
+import LeftInfo from '@/components/LeftInfo';
+import RightInfo from '@/components/RightInfo';
+import ControlPanel from '@/components/ControlPanel';
+import PlanetInfoPanel from '@/components/PlanetInfoPanel';
+import SideNavigation from '@/components/SideNavigation';
+import RightSideNavigation from '@/components/RightSideNavigation';
+import AboutModal from '@/components/AboutModal';
+import ProjectModal from '@/components/ProjectModal';
+import ServiceModal from '@/components/ServiceModal';
+import ContactModal from '@/components/ContactModal';
+import { usePortfolioStore } from '@/store/usePortfolioStore';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const {
+    showPlanetInfo,
+    setPlanetInfoData,
+    hoveredPlanet,
+    showAboutModal,
+    setShowAboutModal,
+    showProjectModal,
+    setShowProjectModal,
+    showServiceModal,
+    setShowServiceModal,
+    showContactModal,
+    setShowContactModal,
+    isTransitioning
+  } = usePortfolioStore();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!showPlanetInfo) return;
+
+      const target = e.target as HTMLElement;
+      const planetInfoPanel = document.querySelector('.planet-info-panel');
+      const controlPanel = document.querySelector('.control-panel');
+
+      if (hoveredPlanet) {
+        return;
+      }
+
+      const isClickingPlanetPanel = planetInfoPanel?.contains(target);
+      const isClickingControlPanel = controlPanel?.contains(target);
+      const isClickingRightSideButton = target.closest('.right-side-icon-button');
+      const isClickingSideButton = target.closest('.side-icon-button');
+      const isClickingLanguageToggle = target.closest('.language-toggle');
+      const isClickingLeftInfo = target.closest('.left-info');
+      const isClickingRightInfo = target.closest('.right-info');
+
+      if (!isClickingPlanetPanel &&
+          !isClickingControlPanel &&
+          !isClickingRightSideButton &&
+          !isClickingSideButton &&
+          !isClickingLanguageToggle &&
+          !isClickingLeftInfo &&
+          !isClickingRightInfo) {
+        setPlanetInfoData(null);
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('click', handleClickOutside);
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showPlanetInfo, setPlanetInfoData, hoveredPlanet]);
+
+  return (
+    <>
+      {!showAboutModal && !showProjectModal && !showServiceModal && !showContactModal && !isTransitioning && <CustomCursor />}
+
+      {/* 条件付きレンダリングではなく、visibilityで制御 */}
+      <div style={{
+        visibility: (showAboutModal || showProjectModal || showServiceModal || showContactModal || isTransitioning) ? 'hidden' : 'visible',
+        pointerEvents: (showAboutModal || showProjectModal || showServiceModal || showContactModal || isTransitioning) ? 'none' : 'auto'
+      }}>
+        <ThreeCanvas />
+      </div>
+
+      <div className="ui-overlay">
+        <ControlPanel />
+        <PlanetInfoPanel />
+        <LeftInfo />
+        <RightInfo />
+        <SideNavigation />
+        <RightSideNavigation />
+      </div>
+
+      <AboutModal
+        isOpen={showAboutModal}
+        onClose={() => setShowAboutModal(false)}
+      />
+
+      <ProjectModal
+        isOpen={showProjectModal}
+        onClose={() => setShowProjectModal(false)}
+      />
+
+      <ServiceModal
+        isOpen={showServiceModal}
+        onClose={() => setShowServiceModal(false)}
+      />
+
+      <ContactModal
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
+      />
+    </>
   );
 }

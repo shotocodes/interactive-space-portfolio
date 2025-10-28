@@ -1,0 +1,303 @@
+/* components/AboutModal/FeaturedWork.module.css */
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #141414;
+  padding: 100px 40px;
+  scroll-snap-align: start;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* タイプライターヘッディング */
+.typewriterHeading {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0.05em;
+  min-height: 3.5rem;
+}
+
+.cursor {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 100;
+}
+
+.cursorBlink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+/* セクションタイトル */
+.sectionTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 80px;
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  opacity: 0;
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* プロジェクトグリッド */
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.projectCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 30px;
+  transition: all 0.4s ease;
+  position: relative;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.projectCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.projectCard.comingSoon {
+  opacity: 0;
+}
+
+.cardFadeIn {
+  animation: cardFadeIn 0.8s ease forwards;
+}
+
+.cardFadeIn.comingSoon {
+  opacity: 0.6;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ステータスバッジ */
+.statusBadge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* プロジェクトタイトル */
+.projectTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 15px;
+  letter-spacing: 0.02em;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* プロジェクト説明 */
+.projectDescription {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  margin-bottom: 25px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  flex-grow: 1;
+}
+
+/* 技術スタック */
+.techStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.techTag {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.projectCard:hover .techTag {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 成果・ステータス */
+.result {
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.resultLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-right: 10px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.resultValue {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: white;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* プロジェクトリンク */
+.projectLink {
+  display: inline-flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.projectLink:hover {
+  transform: translateX(5px);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* View All Projectsボタン */
+.viewAllButton {
+  margin-top: 60px;
+  padding: 16px 40px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer !important;
+  transition: all 0.4s ease;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  opacity: 0;
+}
+
+.viewAllButton:hover {
+  background: white;
+  color: #141414;
+  border-color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+}
+
+/* タブレット対応 */
+@media (max-width: 1024px) {
+  .typewriterHeading {
+    font-size: 2rem;
+  }
+
+  .projectGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 20px;
+  }
+
+  .typewriterHeading {
+    font-size: 1.6rem;
+    min-height: 2.5rem;
+  }
+
+  .sectionTitle {
+    margin-bottom: 50px;
+  }
+
+  .projectGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .projectCard {
+    padding: 30px 25px;
+  }
+
+  .projectTitle {
+    font-size: 1.3rem;
+  }
+
+  .projectDescription {
+    font-size: 0.95rem;
+  }
+
+  .viewAllButton {
+    width: 100%;
+    margin-top: 40px;
+  }
+}

@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shotomoriyama portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f0f 100%);
+      overflow: hidden;
+      font-family: "Orbitron", sans-serif;
+      height: 100vh;
+      cursor: none;
+    }
+
+    #container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* カスタムカーソル */
+    #cursor {
+      position: fixed;
+      width: 25px;
+      height: 25px;
+      background: radial-gradient(circle, #e6ff28 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      mix-blend-mode: screen;
+      transition: transform 0.1s ease;
+    }
+
+    /* UI オーバーレイ */
+    #ui-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* 元の#main-titleのスタイルを削除して、以下を追加 */
+
+/* 左下の情報 */
+#left-info {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: #f9f7f2;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+#left-info h1 {
+  font-size: 2.5rem;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 900;
+  margin-bottom: 0.2rem;
+  text-shadow: 0 0 20px #024550;
+  letter-spacing: -2px;
+}
+
+#left-info .subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 0.3rem;
+  font-weight: 300;
+}
+
+#left-info .edition {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  font-family: "Orbitron", monospace;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  color: #e6ff28;
+  text-shadow: 0 0 10px rgba(230, 255, 40, 0.3);
+}
+
+#left-info .tagline {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* 右下の情報 */
+#right-info {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: #f9f7f2;
+  pointer-events: none;
+  text-align: right;
+  max-width: 300px;
+  z-index: 1001;
+}
+
+#right-info h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #e6ff28;
+  text-shadow: 0 0 10px rgba(230, 255, 40, 0.3);
+}
+
+#right-info .concept {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.usage-tips {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.usage-tips p {
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  #left-info {
+    bottom: 120px;
+    left: 20px;
+  }
+
+  #left-info h1 {
+    font-size: 1.8rem;
+  }
+
+  #right-info {
+    bottom: 120px;
+    right: 20px;
+    max-width: 200px;
+  }
+
+  #right-info h3 {
+    font-size: 1.1rem;
+  }
+}
+
+    /* 惑星情報パネル */
+    #planet-info {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      color: white;
+      min-width: 200px;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s ease;
+      pointer-events: all;
+    }
+
+    #planet-info.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #planet-info h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    #planet-info p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      opacity: 0.9;
+      margin-bottom: 15px;
+    }
+
+    #planet-info .nav-button {
+      display: inline-block;
+      padding: 8px 16px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      border: none;
+    }
+
+    #planet-info .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    /* SNS/Blogパネル専用のボタンスタイル */
+    #planet-info .external-link-button {
+      background: linear-gradient(45deg, #1da1f2, #0ea5e9);
+      margin-right: 8px;
+    }
+
+    #planet-info .blog-link-button {
+      background: linear-gradient(45deg, #ff6b35, #f97316);
+    }
+
+    #planet-info .close-button {
+      background: linear-gradient(45deg, #6b7280, #4b5563);
+      font-size: 0.7rem;
+      padding: 6px 12px;
+    }
+
+    #planet-info .close-button:hover {
+      background: linear-gradient(45deg, #9ca3af, #6b7280);
+    }
+
+    /* コントロールパネル */
+    /* コントロールパネル - シンプル版 */
+    #controls {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      color: white;
+      pointer-events: all;
+      min-width: 200px;
+      transform: translateX(-100%);
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    #controls.show {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .control-group {
+      margin-bottom: 15px;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      opacity: 0.9;
+      font-weight: 500;
+      color: white;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    input[type="range"]:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .value {
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-block;
+      min-width: 30px;
+      text-align: right;
+      opacity: 0.8;
+    }
+
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .control-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      margin: 0;
+    }
+
+    .close-control-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-control-button:hover {
+      opacity: 1;
+    }
+
+    /* 左サイドアイコンボタン */
+    #side-navigation {
+      position: fixed;
+      left: 20px;
+      top: 52%;
+      transform: translateY(-50%);
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      pointer-events: all;
+    }
+
+    .side-icon-button {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: white;
+      font-size: 20px;
+    }
+
+    .side-icon-button:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .side-icon-button img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+      transition: filter 0.3s ease;
+    }
+
+    .side-icon-button:hover img {
+      filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+    }
+
+    /* レスポンシブ対応 */
+    @media (max-width: 768px) {
+      #side-navigation {
+        position: fixed;
+        left: 50%;
+        top: auto;
+        bottom: 20px;
+        transform: translateX(-50%);
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .side-icon-button {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    /* 右サイドアイコンボタン */
+    #right-side-navigation {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      pointer-events: all;
+    }
+
+    .right-side-icon-button {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: white;
+      font-size: 20px;
+    }
+
+    .right-side-icon-button:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .right-side-icon-button img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+      transition: filter 0.3s ease;
+    }
+
+    .right-side-icon-button:hover img {
+      filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+    }
+
+    /* レスポンシブ対応 */
+    @media (max-width: 768px) {
+      #right-side-navigation {
+        position: fixed;
+        right: 50%;
+        top: auto;
+        bottom: 80px;
+        transform: translateX(50%);
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .right-side-icon-button {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    /* 言語切り替えスイッチ */
+    .language-switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .language-toggle {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .language-toggle.active {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .language-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .language-toggle.english .language-slider {
+      transform: translateX(30px);
+    }
+
+    .language-label {
+      font-size: 0.9rem;
+      color: white;
+      opacity: 0.9;
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      #main-title h1 {
+        font-size: 2rem;
+      }
+
+      #controls,
+      #planet-info {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        margin: 20px;
+        max-width: calc(100vw - 40px);
+      }
+
+      #planet-info {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor"></div>
+
+  <div id="container">
+    <div id="ui-overlay">
+      <div id="controls">
+        <div class="control-header">
+          <h3 class="control-title" data-lang="ui.settings">設定</h3>
+          <button class="close-control-button" onclick="document.getElementById('controls').classList.remove('show')">×</button>
+        </div>
+
+        <div class="language-switch">
+          <span class="language-label">言語</span>
+          <div class="language-toggle" id="languageToggle">
+            <div class="language-slider">JA</div>
+          </div>
+        </div>
+        <div class="control-group">
+          <label>回転速度: <span class="value" id="speedValue">0.4</span></label>
+          <input type="range" id="orbitSpeed" min="0" max="3" value="0.4" step="0.1">
+        </div>
+        <div class="control-group">
+          <label>軌道サイズ: <span class="value" id="orbitSizeValue">7</span></label>
+          <input type="range" id="orbitSize" min="4" max="10" value="7" step="0.5">
+        </div>
+        <div class="control-group">
+          <label>太陽サイズ: <span class="value" id="sunSizeValue">1</span></label>
+          <input type="range" id="sunSize" min="1" max="4" value="1" step="0.1">
+        </div>
+        <div class="control-group">
+          <label>太陽粒子数: <span class="value" id="sunParticlesValue">1000</span></label>
+          <input type="range" id="sunParticles" min="500" max="8000" value="1000" step="100">
+        </div>
+      </div>
+
+      <div id="planet-info">
+        <h3 id="planet-name">惑星を選択</h3>
+        <p id="planet-description">惑星にホバーして詳細を確認</p>
+        <div id="planet-buttons">
+          <a href="#" class="nav-button" id="planet-link">詳細を見る</a>
+        </div>
+      </div>
+
+
+      <div id="left-info">
+        <h1>SHOTO MORIYAMA</h1>
+        <p class="subtitle">Portfolio</p>
+        <p class="edition">Edition 002</p>
+        <p class="tagline">創造と技術の融合で、未来を描く</p>
+      </div>
+
+      <div id="right-info">
+        <h3>Solar System Portfolio</h3>
+        <p class="concept">地動説をコンセプトにした<br>インタラクティブポートフォリオ</p>
+        <div class="usage-tips">
+          <p>☀️ 太陽をクリックでリロード</p>
+          <p>🪐 惑星をクリックして詳細表示</p>
+          <p>⚙️ 左メニューで設定変更</p>
+          <p>🌐 言語切替可能</p>  </div>
+      </div>
+
+      <!-- 左サイドナビゲーション -->
+      <div id="side-navigation">
+        <button class="side-icon-button" data-action="controls" title="コントロール">
+          ⚙️
+        </button>
+        <button class="side-icon-button" data-action="sns" title="SNS Links">
+          🔗
+        </button>
+        <button class="side-icon-button" data-action="blog" title="Blog">
+          ✏️
+        </button>
+      </div>
+
+      <!-- 右サイドナビゲーション -->
+      <div id="right-side-navigation">
+        <button class="right-side-icon-button" data-planet="about" title="About">
+          👤
+        </button>
+        <button class="right-side-icon-button" data-planet="projects" title="Projects">
+          📁
+        </button>
+        <button class="right-side-icon-button" data-planet="services" title="Services">
+          💼
+        </button>
+        <button class="right-side-icon-button" data-planet="contact" title="Contact">
+          ✉️
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    let scene, camera, renderer;
+    let sun, sunParticles, sunFlares;
+    let orbitParticles = [];
+    let planets = [];
+    let actionPlanets = []; // 機能惑星用
+    let raycaster, mouse;
+
+    // 設定
+    let config = {
+      orbitSpeed: 0.4,      // 回転速度を0.4に
+      orbitRadius: 7,       // 軌道サイズを7に
+      actionOrbitRadius: 4, // 機能惑星の軌道
+      sunSize: 1,           // 太陽サイズを1に
+      sunParticleCount: 1000, // 太陽粒子数
+      planetCount: 4,
+      actionPlanetCount: 3
+    };
+
+    // 言語データオブジェクト
+    const languageData = {
+      ja: {
+        // メインタイトル
+        mainTitle: "SHOTO MORIYAMA",
+        mainSubtitle: "Navigate through the universe",
+
+        // 惑星データ
+        planets: {
+          about: {
+            name: "About",
+            description: "私について、経歴、スキルセットなどをご紹介します"
+          },
+          projects: {
+            name: "Projects",
+            description: "これまでに手がけたプロジェクトと実績をご覧ください"
+          },
+          services: {
+            name: "Services",
+            description: "技術スタック、ツール、専門分野について詳しく説明します"
+          },
+          contact: {
+            name: "Contact",
+            description: "お仕事のご依頼、ご相談はこちらからお気軽にどうぞ"
+          }
+        },
+
+        // アクション惑星
+        actions: {
+          controls: {
+            name: "Controls",
+            description: "システムの設定とコントロールパネルを開きます。惑星の軌道速度、サイズ、太陽の設定などをカスタマイズできます。"
+          },
+          sns: {
+            name: "SNS Links",
+            description: "私のソーシャルメディアアカウントをご覧いただけます。最新の活動状況や日々の気づきをシェアしています。"
+          },
+          blog: {
+            name: "Blog & Articles",
+            description: "技術記事、開発に関する学びや経験をまとめたブログです。最新のテクノロジーや開発手法について発信しています。"
+          }
+        },
+
+        // UI要素
+        ui: {
+          settings: "設定",
+          language: "言語",
+          close: "閉じる",
+          viewDetails: "詳細を見る",
+          orbitSpeed: "回転速度",
+          orbitSize: "軌道サイズ",
+          sunSize: "太陽サイズ",
+          sunParticles: "太陽粒子数",
+          selectPlanet: "惑星を選択",
+          hoverInstruction: "惑星にホバーして詳細を確認"
+        }
+      },
+
+      en: {
+        // メインタイトル
+        mainTitle: "SHOTO MORIYAMA",
+        mainSubtitle: "Navigate through the universe",
+
+        // 惑星データ
+        planets: {
+          about: {
+            name: "About",
+            description: "Learn about my background, career journey, and skill set"
+          },
+          projects: {
+            name: "Projects",
+            description: "Explore my portfolio of projects and achievements"
+          },
+          services: {
+            name: "Services",
+            description: "Discover my technical expertise, tools, and specialized areas"
+          },
+          contact: {
+            name: "Contact",
+            description: "Get in touch for collaboration opportunities and inquiries"
+          }
+        },
+
+        // アクション惑星
+        actions: {
+          controls: {
+            name: "Controls",
+            description: "Access system settings and control panel. Customize planet orbit speeds, sizes, and solar configurations."
+          },
+          sns: {
+            name: "Social Links",
+            description: "Connect with me on social media platforms. Stay updated on my latest activities and insights."
+          },
+          blog: {
+            name: "Blog & Articles",
+            description: "Read my technical articles and development insights. Sharing knowledge about latest technologies and methodologies."
+          }
+        },
+
+        // UI要素
+        ui: {
+          settings: "Settings",
+          language: "Language",
+          close: "Close",
+          viewDetails: "View Details",
+          orbitSpeed: "Orbit Speed",
+          orbitSize: "Orbit Size",
+          sunSize: "Sun Size",
+          sunParticles: "Sun Particles",
+          selectPlanet: "Select Planet",
+          hoverInstruction: "Hover over planets for details"
+        }
+      }
+    };
+
+    // 現在の言語（デフォルトは日本語）
+    let currentLanguage = 'ja';
+
+    // 惑星データ
+    const planetData = [
+      {
+        name: "About",
+        description: "私について、経歴、スキルセットなどをご紹介します",
+        color: 0xff6b6b,
+        size: 0.32,
+        link: "#about"
+      },
+      {
+        name: "Projects",
+        description: "これまでに手がけたプロジェクトと実績をご覧ください",
+        color: 0x4ecdc4,
+        size: 0.4,
+        link: "#projects"
+      },
+      {
+        name: "Services",
+        description: "技術スタック、ツール、専門分野について詳しく説明します",
+        color: 0x45b7d1,
+        size: 0.35,
+        link: "#services"
+      },
+      {
+        name: "Contact",
+        description: "お仕事のご依頼、ご相談はこちらからお気軽にどうぞ",
+        color: 0x96ceb4,
+        size: 0.29,
+        link: "#contact"
+      }
+    ];
+
+    // 機能惑星データ（内側軌道）
+    const actionPlanetData = [
+      {
+        name: "Controls",
+        description: "システムの設定とコントロールパネルを開きます。惑星の軌道速度、サイズ、太陽の設定などをカスタマイズできます。",
+        color: 0xe6ff2b,
+        size: 0.2,
+        action: "controls"
+      },
+      {
+        name: "SNS Links",
+        description: "私のソーシャルメディアアカウントをご覧いただけます。最新の活動状況や日々の気づきをシェアしています。",
+        color: 0x1da1f2,
+        size: 0.2,
+        action: "sns",
+        links: [
+          { name: "Twitter", url: "https://twitter.com/your_twitter" },
+          { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
+          { name: "Instagram", url: "https://instagram.com/your_instagram" }
+        ]
+      },
+      {
+        name: "Blog & Articles",
+        description: "技術記事、開発に関する学びや経験をまとめたブログです。最新のテクノロジーや開発手法について発信しています。",
+        color: 0xff6b35,
+        size: 0.2,
+        action: "blog",
+        links: [
+          { name: "技術ブログ", url: "https://your-tech-blog.com" },
+          { name: "Qiita", url: "https://qiita.com/your_qiita" },
+          { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+        ]
+      }
+    ];
+
+    // マウス制御
+    let mouseX = 0, mouseY = 0;
+    let targetCameraX = 0, targetCameraY = 0;
+
+    // アニメーション
+    let time = 0;
+    let frameCount = 0;
+    let lastTime = performance.now();
+
+    // 選択された惑星
+    let selectedPlanet = null;
+    let hoveredPlanet = null;
+
+    function init() {
+      console.log("Initializing solar system..."); // デバッグ用
+
+      // シーン作成
+      scene = new THREE.Scene();
+
+      // カメラ作成
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, 12);
+
+      // レンダラー作成
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 1);
+      document.getElementById('container').appendChild(renderer.domElement);
+
+      console.log("Renderer created and added to container"); // デバッグ用
+
+      // レイキャスター
+      raycaster = new THREE.Raycaster();
+      mouse = new THREE.Vector2();
+
+      // ライティング
+      setupLighting();
+      console.log("Lighting setup complete"); // デバッグ用
+
+      // 太陽作成
+      createSun();
+      console.log("Sun created"); // デバッグ用
+
+      // 軌道作成
+      createOrbitRings();
+      console.log("Orbit rings created"); // デバッグ用
+
+      // 惑星作成
+      createPlanets();
+      console.log("Planets created"); // デバッグ用
+
+      // 機能惑星作成
+      createActionPlanets();
+      console.log("Action planets created"); // デバッグ用
+
+      // イベントリスナー
+      setupEventListeners();
+
+      // アニメーション開始
+      animate();
+      console.log("Animation started"); // デバッグ用
+
+      // 言語システム初期化
+      initializeLanguageSystem();
+    }
+
+    // 言語更新関数
+    function updateLanguage() {
+      const currentData = languageData[currentLanguage];
+
+      // メインタイトル更新
+      const mainTitle = document.querySelector('#main-title h1');
+      const mainSubtitle = document.querySelector('#main-title p');
+      if (mainTitle) mainTitle.textContent = currentData.mainTitle;
+      if (mainSubtitle) mainSubtitle.textContent = currentData.mainSubtitle;
+
+      // 設定パネル内のラベル更新
+      updateControlLabels();
+
+      // 惑星データを更新
+      updatePlanetData();
+    }
+
+    // コントロールパネルのラベル更新関数
+    function updateControlLabels() {
+      const currentData = languageData[currentLanguage];
+
+      // 設定パネルのタイトル
+      const controlTitle = document.querySelector('.control-title');
+      if (controlTitle) controlTitle.textContent = currentData.ui.settings;
+
+      // 言語ラベル
+      const languageLabel = document.querySelector('.language-label');
+      if (languageLabel) languageLabel.textContent = currentData.ui.language;
+
+      // 各コントロールラベル
+      const labels = document.querySelectorAll('#controls label');
+      labels.forEach((label, index) => {
+        const valueSpan = label.querySelector('.value');
+        const currentValue = valueSpan ? valueSpan.textContent : '';
+
+        switch (index) {
+          case 0:
+            label.innerHTML = `${currentData.ui.orbitSpeed}: <span class="value" id="speedValue">${currentValue}</span>`;
+            break;
+          case 1:
+            label.innerHTML = `${currentData.ui.orbitSize}: <span class="value" id="orbitSizeValue">${currentValue}</span>`;
+            break;
+          case 2:
+            label.innerHTML = `${currentData.ui.sunSize}: <span class="value" id="sunSizeValue">${currentValue}</span>`;
+            break;
+          case 3:
+            label.innerHTML = `${currentData.ui.sunParticles}: <span class="value" id="sunParticlesValue">${currentValue}</span>`;
+            break;
+        }
+      });
+
+      // プラネット情報のデフォルトテキスト
+      const planetName = document.getElementById('planet-name');
+      const planetDesc = document.getElementById('planet-description');
+
+      if (planetName && (planetName.textContent === '惑星を選択' || planetName.textContent === 'Select Planet')) {
+        planetName.textContent = currentData.ui.selectPlanet;
+      }
+
+      if (planetDesc && (planetDesc.textContent === '惑星にホバーして詳細を確認' || planetDesc.textContent === 'Hover over planets for details')) {
+        planetDesc.textContent = currentData.ui.hoverInstruction;
+      }
+    }
+
+    // 惑星データ更新関数
+    function updatePlanetData() {
+      const currentData = languageData[currentLanguage];
+
+      // planetData配列を更新
+      planetData.forEach((planet, index) => {
+        const planetKey = planet.name.toLowerCase();
+        if (currentData.planets[planetKey]) {
+          planetData[index].name = currentData.planets[planetKey].name;
+          planetData[index].description = currentData.planets[planetKey].description;
+        }
+      });
+
+      // actionPlanetData配列を更新
+      actionPlanetData.forEach((planet, index) => {
+        const actionKey = planet.action;
+        if (currentData.actions[actionKey]) {
+          actionPlanetData[index].name = currentData.actions[actionKey].name;
+          actionPlanetData[index].description = currentData.actions[actionKey].description;
+        }
+      });
+    }
+
+    // 開いているパネルを更新する関数
+    function updateOpenPanels() {
+      const planetInfo = document.getElementById('planet-info');
+
+      // パネルが開いていれば内容を更新
+      if (planetInfo.classList.contains('show')) {
+        const planetName = document.getElementById('planet-name').textContent;
+        const currentData = languageData[currentLanguage];
+
+        // 通常の惑星かチェック
+        const planetMatch = Object.entries(currentData.planets).find(([key, data]) =>
+          data.name === planetName ||
+          languageData[currentLanguage === 'ja' ? 'en' : 'ja'].planets[key].name === planetName
+        );
+
+        if (planetMatch) {
+          const [planetKey, planetData] = planetMatch;
+          const updatedData = {
+            name: currentData.planets[planetKey].name,
+            description: currentData.planets[planetKey].description,
+            link: "#" + planetKey
+          };
+          showPlanetInfo(updatedData);
+          return;
+        }
+
+        // アクション惑星かチェック
+        const actionMatch = Object.entries(currentData.actions).find(([key, data]) =>
+          data.name === planetName ||
+          languageData[currentLanguage === 'ja' ? 'en' : 'ja'].actions[key].name === planetName
+        );
+
+        if (actionMatch) {
+          const [actionKey, actionData] = actionMatch;
+          let updatedData = {
+            name: currentData.actions[actionKey].name,
+            description: currentData.actions[actionKey].description,
+            isActionPlanet: true,
+            action: actionKey
+          };
+
+          // SNSやBlogの場合はlinksも追加
+          if (actionKey === 'sns') {
+            updatedData.links = [
+              { name: "Twitter", url: "https://twitter.com/your_twitter" },
+              { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
+              { name: "Instagram", url: "https://instagram.com/your_instagram" }
+            ];
+          } else if (actionKey === 'blog') {
+            updatedData.links = [
+              { name: currentLanguage === 'ja' ? "技術ブログ" : "Tech Blog", url: "https://your-tech-blog.com" },
+              { name: "Qiita", url: "https://qiita.com/your_qiita" },
+              { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+            ];
+          }
+
+          showPlanetInfo(updatedData);
+        }
+      }
+    }
+
+    // 言語システム初期化関数
+    function initializeLanguageSystem() {
+      // 言語切り替えボタンのイベントリスナー追加
+      const languageToggle = document.getElementById('languageToggle');
+      if (languageToggle) {
+        languageToggle.addEventListener('click', toggleLanguage);
+      }
+
+      // 初期言語設定
+      updateLanguage();
+    }
+
+    // toggleLanguage関数を修正
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'ja' ? 'en' : 'ja';
+      console.log('Language switched to:', currentLanguage); // デバッグ用
+
+      // トグルスイッチの見た目を更新
+      const toggle = document.getElementById('languageToggle');
+      const slider = toggle.querySelector('.language-slider');
+
+      if (currentLanguage === 'en') {
+        toggle.classList.add('english');
+        slider.textContent = 'EN';
+      } else {
+        toggle.classList.remove('english');
+        slider.textContent = 'JA';
+      }
+
+      // 言語を更新
+      updateLanguage();
+
+      // 開いているパネルがあれば更新
+      updateOpenPanels();
+    }
+
+    function setupLighting() {
+      // 環境光
+      const ambientLight = new THREE.AmbientLight(0x404040, 0.2);
+      scene.add(ambientLight);
+
+      // 太陽光（メインライト）
+      const sunLight = new THREE.PointLight(0xffa500, 2.0, 100);
+      sunLight.position.set(0, 0, 0);
+      scene.add(sunLight);
+
+      // 補助光
+      const fillLight = new THREE.PointLight(0xff6b35, 0.5, 50);
+      fillLight.position.set(0, 0, 0);
+      scene.add(fillLight);
+    }
+
+    function createSun() {
+      // 太陽ジオメトリ
+      const sunGeometry = new THREE.SphereGeometry(config.sunSize, 64, 64);
+
+      // 太陽マテリアル（炎のような動的エフェクト）
+      const sunMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          color1: { value: new THREE.Color(0xff4500) }, // オレンジレッド
+          color2: { value: new THREE.Color(0xffa500) }, // オレンジ
+          color3: { value: new THREE.Color(0xffff00) }  // イエロー
+        },
+        vertexShader: `
+          varying vec3 vPosition;
+          varying vec3 vNormal;
+          varying vec2 vUv;
+          uniform float time;
+
+          // ノイズ関数
+          float noise(vec3 pos) {
+            return sin(pos.x * 2.0) * sin(pos.y * 3.0) * sin(pos.z * 5.0);
+          }
+
+          void main() {
+            vPosition = position;
+            vNormal = normal;
+            vUv = uv;
+
+            vec3 pos = position;
+
+            // 炎のような動的な変形
+            float n1 = noise(position + time * 2.0) * 0.1;
+            float n2 = noise(position * 2.0 + time * 1.5) * 0.05;
+            float n3 = noise(position * 4.0 + time * 3.0) * 0.02;
+
+            pos += normal * (n1 + n2 + n3);
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float time;
+          uniform vec3 color1;
+          uniform vec3 color2;
+          uniform vec3 color3;
+          varying vec3 vPosition;
+          varying vec3 vNormal;
+          varying vec2 vUv;
+
+          // ノイズ関数
+          float noise(vec2 pos) {
+            return sin(pos.x * 10.0 + time) * sin(pos.y * 10.0 + time * 1.3);
+          }
+
+          void main() {
+            vec3 viewDirection = normalize(cameraPosition - vPosition);
+            float fresnel = pow(1.0 - dot(vNormal, viewDirection), 1.5);
+
+            // 炎のような色彩変化
+            float n1 = noise(vUv * 5.0 + time * 2.0) * 0.5 + 0.5;
+            float n2 = noise(vUv * 8.0 + time * 1.8) * 0.5 + 0.5;
+            float n3 = noise(vUv * 12.0 + time * 2.5) * 0.5 + 0.5;
+
+            vec3 color = mix(color1, color2, n1);
+            color = mix(color, color3, n2 * 0.7);
+
+            // 表面の輝き
+            color += vec3(1.0, 0.8, 0.3) * n3 * 0.3;
+
+            // フレネル効果で輪郭を明るく
+            color += vec3(1.0, 0.9, 0.5) * fresnel * 0.8;
+
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `,
+        transparent: false
+      });
+
+      sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      scene.add(sun);
+
+      // 太陽周りの粒子（フレア効果）
+      createSunParticles();
+
+      // 太陽のコロナ効果
+      createSunFlares();
+    }
+
+    function createSunParticles() {
+      const particleCount = config.sunParticleCount;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      const sizes = new Float32Array(particleCount);
+
+      for (let i = 0; i < particleCount; i++) {
+        const radius = config.sunSize + 0.3 + Math.random() * 2.0;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 2 - 1);
+
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = radius * Math.cos(phi);
+        positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+
+        // 太陽らしい色合い（オレンジ〜赤〜黄色）
+        const color = new THREE.Color();
+        const hue = 0.05 + Math.random() * 0.1; // オレンジから黄色の範囲
+        color.setHSL(hue, 0.9, 0.6 + Math.random() * 0.4);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
+
+        sizes[i] = 0.05 + Math.random() * 0.1;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 }
+        },
+        vertexShader: `
+          attribute float size;
+          attribute vec3 color;
+          varying vec3 vColor;
+          uniform float time;
+
+          void main() {
+            vColor = color;
+            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+
+            // 炎のような揺らぎ
+            mvPosition.xyz += sin(time * 3.0 + position.x * 0.1) * 0.02;
+            mvPosition.xyz += cos(time * 2.5 + position.y * 0.1) * 0.02;
+
+            gl_PointSize = size * (300.0 / -mvPosition.z);
+            gl_Position = projectionMatrix * mvPosition;
+          }
+        `,
+        fragmentShader: `
+          varying vec3 vColor;
+
+          void main() {
+            vec2 center = gl_PointCoord - 0.5;
+            float r = length(center);
+            if (r > 0.5) discard;
+            float alpha = 1.0 - smoothstep(0.0, 0.5, r);
+            gl_FragColor = vec4(vColor, alpha * 0.9);
+          }
+        `,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthTest: false
+      });
+
+      sunParticles = new THREE.Points(geometry, material);
+      scene.add(sunParticles);
+    }
+
+    function createSunFlares() {
+      // 太陽のコロナ（光輪）
+      const flareGeometry = new THREE.SphereGeometry(config.sunSize * 1.8, 32, 32);
+      const flareMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 }
+        },
+        vertexShader: `
+          varying vec3 vPosition;
+          varying vec3 vNormal;
+          uniform float time;
+
+          void main() {
+            vPosition = position;
+            vNormal = normal;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float time;
+          varying vec3 vPosition;
+          varying vec3 vNormal;
+
+          void main() {
+            vec3 viewDirection = normalize(cameraPosition - vPosition);
+            float fresnel = pow(1.0 - dot(vNormal, viewDirection), 2.0);
+
+            // 動的な光の強度
+            float intensity = sin(time * 2.0 + vPosition.x) * 0.3 + 0.7;
+
+            vec3 coronaColor = vec3(1.0, 0.7, 0.3) * fresnel * intensity;
+
+            gl_FragColor = vec4(coronaColor, fresnel * 0.4);
+          }
+        `,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide
+      });
+
+      sunFlares = new THREE.Mesh(flareGeometry, flareMaterial);
+      scene.add(sunFlares);
+    }
+
+    function createOrbitRings() {
+      const ringCount = 3;
+
+      for (let ring = 0; ring < ringCount; ring++) {
+        const particleCount = 500 + ring * 200;
+        const radius = config.orbitRadius + ring * 1.5;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+          const angle = (i / particleCount) * Math.PI * 2;
+          const x = Math.cos(angle) * radius;
+          const z = Math.sin(angle) * radius;
+          const y = (Math.random() - 0.5) * 0.1;
+
+          positions[i * 3] = x;
+          positions[i * 3 + 1] = y;
+          positions[i * 3 + 2] = z;
+
+          colors[i * 3] = 1;
+          colors[i * 3 + 1] = 1;
+          colors[i * 3 + 2] = 1;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+          color: 0xffffff,
+          size: 0.008,
+          transparent: true,
+          opacity: 0.6 - ring * 0.1,
+          blending: THREE.AdditiveBlending
+        });
+
+        const orbitRing = new THREE.Points(geometry, material);
+        orbitParticles.push(orbitRing);
+        scene.add(orbitRing);
+      }
+    }
+
+    function createPlanets() {
+      planets = [];
+
+      for (let i = 0; i < config.planetCount; i++) {
+        const data = planetData[i];
+        const angle = (i / config.planetCount) * Math.PI * 2;
+
+        const planetGeometry = new THREE.SphereGeometry(data.size, 32, 32);
+        const planetMaterial = new THREE.MeshPhongMaterial({
+          color: data.color,
+          shininess: 100,
+          transparent: true,
+          opacity: 0.9
+        });
+
+        const planet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+        planet.position.x = Math.cos(angle) * config.orbitRadius;
+        planet.position.z = Math.sin(angle) * config.orbitRadius;
+        planet.position.y = 0;
+
+        planet.userData = {
+          ...data,
+          angle: angle,
+          baseRadius: config.orbitRadius,
+          originalScale: planet.scale.x
+        };
+
+        planets.push(planet);
+        scene.add(planet);
+
+        const glowGeometry = new THREE.SphereGeometry(data.size * 1.5, 16, 16);
+        const glowMaterial = new THREE.MeshBasicMaterial({
+          color: data.color,
+          transparent: true,
+          opacity: 0.2,
+          side: THREE.BackSide
+        });
+
+        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+        planet.add(glow);
+      }
+    }
+
+    function createActionPlanets() {
+      actionPlanets = [];
+
+      for (let i = 0; i < config.actionPlanetCount; i++) {
+        const data = actionPlanetData[i];
+        const angle = (i / config.actionPlanetCount) * Math.PI * 2 + Math.PI;
+
+        const planetGeometry = new THREE.SphereGeometry(data.size, 32, 32);
+        const planetMaterial = new THREE.MeshPhongMaterial({
+          color: data.color,
+          shininess: 100,
+          transparent: true,
+          opacity: 0.9
+        });
+
+        const planet = new THREE.Mesh(planetGeometry, planetMaterial);
+
+        planet.position.x = Math.cos(angle) * config.actionOrbitRadius;
+        planet.position.z = Math.sin(angle) * config.actionOrbitRadius;
+        planet.position.y = 0;
+
+        planet.userData = {
+          ...data,
+          angle: angle,
+          baseRadius: config.actionOrbitRadius,
+          originalScale: planet.scale.x,
+          isActionPlanet: true
+        };
+
+        actionPlanets.push(planet);
+        scene.add(planet);
+
+        const glowGeometry = new THREE.SphereGeometry(data.size * 2, 16, 16);
+        const glowMaterial = new THREE.MeshBasicMaterial({
+          color: data.color,
+          transparent: true,
+          opacity: 0.3,
+          side: THREE.BackSide
+        });
+
+        const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+        planet.add(glow);
+      }
+    }
+
+    function setupEventListeners() {
+      window.addEventListener('resize', onWindowResize);
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        targetCameraX = mouseX * 2;
+        targetCameraY = mouseY * 2;
+
+        document.getElementById('cursor').style.left = e.clientX - 6 + 'px';
+        document.getElementById('cursor').style.top = e.clientY - 6 + 'px';
+
+        mouse.x = mouseX;
+        mouse.y = mouseY;
+        checkIntersections();
+      });
+
+      document.addEventListener('click', onPlanetClick);
+
+      document.getElementById('orbitSpeed').addEventListener('input', (e) => {
+        config.orbitSpeed = parseFloat(e.target.value);
+        document.getElementById('speedValue').textContent = config.orbitSpeed.toFixed(1);
+      });
+
+      document.getElementById('orbitSize').addEventListener('input', (e) => {
+        config.orbitRadius = parseFloat(e.target.value);
+        document.getElementById('orbitSizeValue').textContent = config.orbitRadius;
+        updateOrbitPositions();
+      });
+
+      document.getElementById('sunSize').addEventListener('input', (e) => {
+        config.sunSize = parseFloat(e.target.value);
+        document.getElementById('sunSizeValue').textContent = config.sunSize;
+        if (sun) {
+          sun.scale.setScalar(config.sunSize / 2);
+        }
+        if (sunFlares) {
+          sunFlares.scale.setScalar(config.sunSize / 2);
+        }
+      });
+
+      document.getElementById('sunParticles').addEventListener('input', (e) => {
+        config.sunParticleCount = parseInt(e.target.value);
+        document.getElementById('sunParticlesValue').textContent = config.sunParticleCount;
+        scene.remove(sunParticles);
+        createSunParticles();
+      });
+
+      //サイドNav
+      document.querySelectorAll('.side-icon-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const action = e.currentTarget.getAttribute('data-action');
+
+          if (action === 'controls') {
+            const controls = document.getElementById('controls');
+            controls.classList.toggle('show');
+          } else if (action === 'sns') {
+            // 現在の言語設定に基づいてSNSデータを取得
+            const currentData = languageData[currentLanguage];
+            const snsData = {
+              name: currentData.actions.sns.name,
+              description: currentData.actions.sns.description,
+              isActionPlanet: true,
+              action: "sns",
+              links: [
+                { name: "Twitter", url: "https://twitter.com/your_twitter" },
+                { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
+                { name: "Instagram", url: "https://instagram.com/your_instagram" }
+              ]
+            };
+            showPlanetInfo(snsData);
+          } else if (action === 'blog') {
+            // 現在の言語設定に基づいてBlogデータを取得
+            const currentData = languageData[currentLanguage];
+            const blogData = {
+              name: currentData.actions.blog.name,
+              description: currentData.actions.blog.description,
+              isActionPlanet: true,
+              action: "blog",
+              links: [
+                { name: currentLanguage === 'ja' ? "技術ブログ" : "Tech Blog", url: "https://your-tech-blog.com" },
+                { name: "Qiita", url: "https://qiita.com/your_qiita" },
+                { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+              ]
+            };
+            showPlanetInfo(blogData);
+          }
+        });
+      });
+
+      // 右サイドナビゲーションのイベントリスナー
+      document.querySelectorAll('.right-side-icon-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const planetType = e.currentTarget.getAttribute('data-planet');
+          console.log('Right side button clicked:', planetType);
+
+          // 現在の言語設定に基づいて惑星データを取得
+          const currentData = languageData[currentLanguage];
+          const planetInfo = currentData.planets[planetType];
+
+          if (planetInfo) {
+            const updatedData = {
+              name: planetInfo.name,
+              description: planetInfo.description,
+              link: "#" + planetType
+            };
+            console.log('Found planet data:', updatedData);
+            showPlanetInfo(updatedData);
+          }
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        // 太陽がクリックされたかチェック
+        raycaster.setFromCamera(mouse, camera);
+        const sunIntersects = raycaster.intersectObjects([sun]);
+
+        if (sunIntersects.length > 0) {
+          console.log('Sun clicked - reloading with fade effect');
+
+          // フェードアウトエフェクト
+          document.body.style.transition = 'opacity 0.8s ease';
+          document.body.style.opacity = '0';
+
+          // 0.8秒後にリロード
+          setTimeout(() => {
+            window.location.reload();
+          }, 800);
+        }
+      });
+    }
+
+    function checkIntersections() {
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects([...planets, ...actionPlanets]);
+        const sunIntersects = raycaster.intersectObjects([sun]);
+
+        // 惑星のリセット
+        planets.forEach(planet => {
+          planet.scale.setScalar(planet.userData.originalScale);
+          planet.material.emissive.setHex(0x000000);
+        });
+
+        actionPlanets.forEach(planet => {
+          planet.scale.setScalar(planet.userData.originalScale);
+          planet.material.emissive.setHex(0x000000);
+        });
+
+        // 太陽ホバー時のエフェクト
+        if (sunIntersects.length > 0) {
+          document.getElementById('cursor').style.transform = 'scale(1.5)';
+          document.getElementById('cursor').style.background = 'radial-gradient(circle, #ff6b35 0%, transparent 70%)';
+
+          // 太陽を少し大きく
+          if (sun) {
+            sun.scale.setScalar(1.1);
+          }
+        } else {
+          document.getElementById('cursor').style.transform = 'scale(1)';
+          document.getElementById('cursor').style.background = 'radial-gradient(circle, #e6ff28 0%, transparent 70%)';
+
+          // 太陽を元に戻す
+          if (sun) {
+            sun.scale.setScalar(1.0);
+          }
+        }
+
+        // 惑星ホバーの既存処理
+        if (intersects.length > 0) {
+          const planet = intersects[0].object;
+          hoveredPlanet = planet;
+
+          planet.scale.setScalar(planet.userData.originalScale * 1.3);
+          planet.material.emissive.setHex(0x333333);
+        } else {
+          hoveredPlanet = null;
+        }
+      }
+
+    function checkIntersections() {
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects([...planets, ...actionPlanets]);
+
+      planets.forEach(planet => {
+        planet.scale.setScalar(planet.userData.originalScale);
+        planet.material.emissive.setHex(0x000000);
+      });
+
+      actionPlanets.forEach(planet => {
+        planet.scale.setScalar(planet.userData.originalScale);
+        planet.material.emissive.setHex(0x000000);
+      });
+
+      if (intersects.length > 0) {
+        const planet = intersects[0].object;
+        hoveredPlanet = planet;
+
+        planet.scale.setScalar(planet.userData.originalScale * 1.3);
+        planet.material.emissive.setHex(0x333333);
+      } else {
+        hoveredPlanet = null;
+      }
+    }
+
+    function showPlanetInfo(data) {
+      console.log('showPlanetInfo called with:', data);
+
+      const infoPanel = document.getElementById('planet-info');
+      const buttonsContainer = document.getElementById('planet-buttons');
+      const currentData = languageData[currentLanguage];
+
+      // 一度パネルを隠す（リセット）
+      infoPanel.classList.remove('show');
+
+      setTimeout(() => {
+        document.getElementById('planet-name').textContent = data.name;
+        document.getElementById('planet-description').textContent = data.description;
+
+        buttonsContainer.innerHTML = '';
+
+        if (data.isActionPlanet && data.links) {
+          data.links.forEach(link => {
+            const button = document.createElement('a');
+            button.href = link.url;
+            button.target = '_blank';
+            button.className = data.action === 'sns' ? 'nav-button external-link-button' : 'nav-button blog-link-button';
+            button.textContent = link.name;
+            buttonsContainer.appendChild(button);
+          });
+
+          const closeButton = document.createElement('button');
+          closeButton.className = 'nav-button close-button';
+          closeButton.textContent = currentData.ui.close; // 言語対応
+          closeButton.onclick = hidePlanetInfo;
+          buttonsContainer.appendChild(closeButton);
+        } else {
+          const button = document.createElement('a');
+          button.href = data.link;
+          button.className = 'nav-button';
+          button.id = 'planet-link';
+          button.textContent = currentData.ui.viewDetails; // 言語対応
+          buttonsContainer.appendChild(button);
+        }
+
+        infoPanel.classList.add('show');
+      }, 50);
+    }
+
+    function hidePlanetInfo() {
+      document.getElementById('planet-info').classList.remove('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const planetInfo = document.getElementById('planet-info');
+      const isClickingPlanet = hoveredPlanet !== null;
+      const isClickingPanel = planetInfo.contains(e.target);
+
+      if (!isClickingPlanet && !isClickingPanel && planetInfo.classList.contains('show')) {
+        hidePlanetInfo();
+      }
+    });
+
+    function onPlanetClick() {
+      if (hoveredPlanet) {
+        const data = hoveredPlanet.userData;
+
+        if (data.isActionPlanet) {
+          if (data.action === 'controls') {
+            const controls = document.getElementById('controls');
+            controls.classList.toggle('show');
+          } else {
+            // アクション惑星の場合、現在の言語データを使用
+            const currentData = languageData[currentLanguage];
+            const actionData = currentData.actions[data.action];
+
+            let updatedData = {
+              name: actionData.name,
+              description: actionData.description,
+              isActionPlanet: true,
+              action: data.action
+            };
+
+            // SNSやBlogの場合はlinksも追加
+            if (data.action === 'sns') {
+              updatedData.links = [
+                { name: "Twitter", url: "https://twitter.com/your_twitter" },
+                { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
+                { name: "Instagram", url: "https://instagram.com/your_instagram" }
+              ];
+            } else if (data.action === 'blog') {
+              updatedData.links = [
+                { name: currentLanguage === 'ja' ? "技術ブログ" : "Tech Blog", url: "https://your-tech-blog.com" },
+                { name: "Qiita", url: "https://qiita.com/your_qiita" },
+                { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+              ];
+            }
+
+            showPlanetInfo(updatedData);
+          }
+        } else {
+          // 通常の惑星の場合、現在の言語データを使用
+          const currentData = languageData[currentLanguage];
+          const planetKey = data.name.toLowerCase();
+          const planetInfo = currentData.planets[planetKey];
+
+          if (planetInfo) {
+            const updatedData = {
+              name: planetInfo.name,
+              description: planetInfo.description,
+              link: "#" + planetKey
+            };
+            showPlanetInfo(updatedData);
+          } else {
+            // フォールバック：元のデータを使用
+            showPlanetInfo(data);
+          }
+        }
+      }
+    }
+
+    function updateOrbitPositions() {
+      planets.forEach((planet, index) => {
+        planet.userData.baseRadius = config.orbitRadius;
+      });
+      actionPlanets.forEach((planet, index) => {
+        planet.userData.baseRadius = config.actionOrbitRadius;
+      });
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      time += 0.016;
+
+      camera.position.x += (targetCameraX - camera.position.x) * 0.05;
+      camera.position.y += (targetCameraY - camera.position.y) * 0.05;
+      camera.lookAt(0, 0, 0);
+
+      if (sun) {
+        sun.rotation.y += 0.01;
+        sun.material.uniforms.time.value = time;
+      }
+
+      if (sunParticles) {
+        sunParticles.rotation.y += 0.005;
+        sunParticles.material.uniforms.time.value = time;
+      }
+
+      if (sunFlares) {
+        sunFlares.rotation.y -= 0.003;
+        sunFlares.material.uniforms.time.value = time;
+      }
+
+      orbitParticles.forEach((ring, index) => {
+        ring.rotation.y += 0.001 * (index + 1);
+      });
+
+      planets.forEach((planet, index) => {
+        const data = planet.userData;
+        data.angle += 0.01 * config.orbitSpeed * (1 + index * 0.1);
+
+        planet.position.x = Math.cos(data.angle) * data.baseRadius;
+        planet.position.z = Math.sin(data.angle) * data.baseRadius;
+
+        planet.rotation.y += 0.02;
+      });
+
+      actionPlanets.forEach((planet, index) => {
+        const data = planet.userData;
+        data.angle -= 0.015 * config.orbitSpeed * (1 + index * 0.05);
+
+        planet.position.x = Math.cos(data.angle) * data.baseRadius;
+        planet.position.z = Math.sin(data.angle) * data.baseRadius;
+
+        planet.rotation.y += 0.03;
+      });
+
+      frameCount++;
+      if (frameCount % 60 === 0) {
+        const now = performance.now();
+        const fps = Math.round(1000 / ((now - lastTime) / 60));
+        lastTime = now;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    // 初期化実行
+    init();
+  </script>
+</body>
+</html>
