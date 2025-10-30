@@ -1,27 +1,41 @@
 // components/AboutModal/ValueProposition.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styles from './ValueProposition.module.css';
 
-interface ValuePropositionProps {
-  language: 'en' | 'ja';
-}
-
-export default function ValueProposition({ language }: ValuePropositionProps) {
+export default function ValueProposition() {
   const [displayedText, setDisplayedText] = useState('');
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [shouldStartTyping, setShouldStartTyping] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const fullText = 'Building Digital Agencies That Run on Autopilot';
 
-  const fullText = language === 'en'
-    ? 'Building Digital Agencies That Run on Autopilot'
-    : '自動で動くデジタルエージェンシーの構築';
+  // スクロールで表示されたら開始
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !shouldStartTyping) {
+            setShouldStartTyping(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [shouldStartTyping]);
 
   useEffect(() => {
-    setDisplayedText('');
-    setIsTypingComplete(false);
+    if (!shouldStartTyping) return;
 
     let currentIndex = 0;
-    const typingSpeed = 50;
+    const typingSpeed = 80; // 50ms → 80ms（少し遅く）
 
     const typeInterval = setInterval(() => {
       if (currentIndex <= fullText.length) {
@@ -34,9 +48,9 @@ export default function ValueProposition({ language }: ValuePropositionProps) {
     }, typingSpeed);
 
     return () => clearInterval(typeInterval);
-  }, [fullText]);
+  }, [shouldStartTyping]);
 
-  const valueCards = language === 'en' ? [
+  const valueCards = [
     {
       icon: '📐',
       title: 'Design',
@@ -55,37 +69,10 @@ export default function ValueProposition({ language }: ValuePropositionProps) {
       description: 'Systems that grow your business while you sleep',
       delay: '0.6s'
     }
-  ] : [
-    {
-      icon: '📐',
-      title: 'デザイン',
-      description: '訪問者を顧客に変換するビジュアルアイデンティティ',
-      delay: '0.2s'
-    },
-    {
-      icon: '💻',
-      title: '開発',
-      description: 'スケールと自動化のために構築されたフルスタックソリューション',
-      delay: '0.4s'
-    },
-    {
-      icon: '⚙️',
-      title: '自動化',
-      description: 'あなたが寝ている間にビジネスを成長させるシステム',
-      delay: '0.6s'
-    }
   ];
 
-  const subHeading = language === 'en'
-    ? 'Design × Development × Automation'
-    : 'デザイン × 開発 × 自動化';
-
-  const tagline = language === 'en'
-    ? 'Location-independent business systems for modern entrepreneurs'
-    : '現代起業家のための場所に依存しないビジネスシステム';
-
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.container}>
         {/* タイプライターテキスト */}
         <h1 className={styles.mainHeading}>
@@ -95,10 +82,10 @@ export default function ValueProposition({ language }: ValuePropositionProps) {
 
         {/* サブヘッディング */}
         <p className={`${styles.subHeading} ${isTypingComplete ? styles.fadeIn : ''}`}>
-          {subHeading}
+          Design × Development × Automation
         </p>
         <p className={`${styles.tagline} ${isTypingComplete ? styles.fadeIn : ''}`}>
-          {tagline}
+          Location-independent business systems for modern entrepreneurs
         </p>
 
         {/* 価値提案カード */}

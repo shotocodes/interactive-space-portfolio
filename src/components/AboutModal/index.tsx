@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import ParticleSphere from './ParticleSphere';
-import AboutSettingsPanel from './SettingsPanel';
+import SettingsPanel from './SettingsPanel';
 import ValueProposition from './ValueProposition';
 import PhilosophyApproach from './PhilosophyApproach';
 import OriginStory from './OriginStory';
@@ -56,7 +56,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
         {/* 設定パネル */}
         {showSettings && (
-          <AboutSettingsPanel
+          <SettingsPanel
             morphToIcosahedron={morphToIcosahedron}
             onShapeToggle={() => setMorphToIcosahedron(!morphToIcosahedron)}
             particleCount={particleCount}
