@@ -18,12 +18,13 @@ export default function ParticleMorphing({
   particleCount = 15000
 }: ParticleMorphingProps) {
   const mountRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<THREE.Points | null>(null);
-  const materialRef = useRef<THREE.ShaderMaterial | null>(null);
-  const morphProgressRef = useRef(0);
-  const targetMorphRef = useRef(morphToRing ? 1 : 0);
+  const morphToRingRef = useRef(morphToRing);
   const warpModeRef = useRef(warpMode);
   const magneticModeRef = useRef(magneticMode);
+
+  useEffect(() => {
+    morphToRingRef.current = morphToRing;
+  }, [morphToRing]);
 
   useEffect(() => {
     warpModeRef.current = warpMode;
@@ -34,16 +35,9 @@ export default function ParticleMorphing({
   }, [magneticMode]);
 
   useEffect(() => {
-    targetMorphRef.current = morphToRing ? 1 : 0;
-  }, [morphToRing]);
-
-  useEffect(() => {
     if (!mountRef.current) return;
 
     const container = mountRef.current;
-
-    // 現在のモーフ状態を保存
-    const savedMorphProgress = morphProgressRef.current;
 
     while (container.firstChild) {
       container.removeChild(container.firstChild);
@@ -76,7 +70,6 @@ export default function ParticleMorphing({
       const type = Math.random();
 
       if (type < 0.7) {
-        // 70%: 円錐の側面
         const heightRatio = Math.random();
         const angle = Math.random() * Math.PI * 2;
         const currentRadius = baseRadius * (1 - heightRatio);
@@ -85,7 +78,6 @@ export default function ParticleMorphing({
         z = Math.sin(angle) * currentRadius;
         y = (heightRatio - 0.5) * height;
       } else {
-        // 30%: 円錐の底面
         const angle = Math.random() * Math.PI * 2;
         const radius = Math.sqrt(Math.random()) * baseRadius;
 
@@ -118,29 +110,28 @@ export default function ParticleMorphing({
       ringPositions[i * 3 + 2] = z;
     }
 
+    // 現在の位置配列
+    const currentPositions = new Float32Array(particleCount * 3);
+    currentPositions.set(conePositions);
+
     const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(conePositions, 3));
-    geometry.setAttribute('targetPosition', new THREE.BufferAttribute(ringPositions, 3));
+    geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3));
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        morphProgress: { value: savedMorphProgress }, // 保存した状態を復元
         time: { value: 0 },
-        warpMode: { value: warpModeRef.current ? 1.0 : 0.0 },
-        magneticMode: { value: magneticModeRef.current ? 1.0 : 0.0 },
+        warpMode: { value: warpMode ? 1.0 : 0.0 },
+        magneticMode: { value: magneticMode ? 1.0 : 0.0 },
         mousePos: { value: new THREE.Vector2(0, 0) }
       },
       vertexShader: `
-        uniform float morphProgress;
         uniform float time;
         uniform float warpMode;
         uniform float magneticMode;
         uniform vec2 mousePos;
-        attribute vec3 targetPosition;
-        varying vec3 vColor;
 
         void main() {
-          vec3 pos = mix(position, targetPosition, morphProgress);
+          vec3 pos = position;
 
           if (warpMode > 0.5) {
             float warpAmount = sin(pos.y * 2.0 + time) * 0.3;
@@ -154,28 +145,19 @@ export default function ParticleMorphing({
             pos.xy += toMouse * pullStrength;
           }
 
-          float colorMix = morphProgress;
-          vColor = mix(
-            vec3(0.8, 0.3, 0.9),
-            vec3(1.0, 0.8, 0.3),
-            colorMix
-          );
-
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           gl_PointSize = 2.0 * (300.0 / -mvPosition.z);
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
       fragmentShader: `
-        varying vec3 vColor;
-
         void main() {
           vec2 center = gl_PointCoord - vec2(0.5);
           float dist = length(center);
           if (dist > 0.5) discard;
 
           float alpha = 1.0 - (dist * 2.0);
-          gl_FragColor = vec4(vColor, alpha * 0.8);
+          gl_FragColor = vec4(0.8, 0.3, 0.9, alpha * 0.8);
         }
       `,
       transparent: true,
@@ -186,31 +168,35 @@ export default function ParticleMorphing({
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    particlesRef.current = particles;
-    materialRef.current = material;
-
-    // モーフ状態を復元
-    morphProgressRef.current = savedMorphProgress;
-
     let animationId: number;
+    let morphProgress = 0;
     const clock = new THREE.Clock();
 
     const animate = () => {
       animationId = requestAnimationFrame(animate);
 
       const elapsed = clock.getElapsedTime();
+
+      // モーフィングアニメーション（AboutModalと同じ方式）
+      const targetMorphProgress = morphToRingRef.current ? 1 : 0;
+      const morphSpeed = 0.02;
+
+      if (morphProgress < targetMorphProgress) {
+        morphProgress = Math.min(morphProgress + morphSpeed, targetMorphProgress);
+      } else if (morphProgress > targetMorphProgress) {
+        morphProgress = Math.max(morphProgress - morphSpeed, targetMorphProgress);
+      }
+
+      // 位置を補間
+      const positions = geometry.attributes.position.array as Float32Array;
+      for (let i = 0; i < particleCount * 3; i++) {
+        positions[i] = conePositions[i] + (ringPositions[i] - conePositions[i]) * morphProgress;
+      }
+      geometry.attributes.position.needsUpdate = true;
+
       material.uniforms.time.value = elapsed;
       material.uniforms.warpMode.value = warpModeRef.current ? 1.0 : 0.0;
       material.uniforms.magneticMode.value = magneticModeRef.current ? 1.0 : 0.0;
-
-      const target = targetMorphRef.current;
-      const current = morphProgressRef.current;
-      const diff = target - current;
-
-      if (Math.abs(diff) > 0.001) {
-        morphProgressRef.current += diff * 0.02;
-        material.uniforms.morphProgress.value = morphProgressRef.current;
-      }
 
       particles.rotation.y = elapsed * 0.12;
       particles.rotation.x = Math.sin(elapsed * 0.06) * 0.15;

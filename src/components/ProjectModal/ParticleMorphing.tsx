@@ -18,12 +18,13 @@ export default function ParticleMorphing({
   particleCount = 15000
 }: ParticleMorphingProps) {
   const mountRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<THREE.Points | null>(null);
-  const materialRef = useRef<THREE.ShaderMaterial | null>(null);
-  const morphProgressRef = useRef(0);
-  const targetMorphRef = useRef(morphToHelix ? 1 : 0);
+  const morphToHelixRef = useRef(morphToHelix);
   const warpModeRef = useRef(warpMode);
   const magneticModeRef = useRef(magneticMode);
+
+  useEffect(() => {
+    morphToHelixRef.current = morphToHelix;
+  }, [morphToHelix]);
 
   useEffect(() => {
     warpModeRef.current = warpMode;
@@ -34,16 +35,9 @@ export default function ParticleMorphing({
   }, [magneticMode]);
 
   useEffect(() => {
-    targetMorphRef.current = morphToHelix ? 1 : 0;
-  }, [morphToHelix]);
-
-  useEffect(() => {
     if (!mountRef.current) return;
 
     const container = mountRef.current;
-
-    // 現在のモーフ状態を保存
-    const savedMorphProgress = morphProgressRef.current;
 
     while (container.firstChild) {
       container.removeChild(container.firstChild);
@@ -66,7 +60,7 @@ export default function ParticleMorphing({
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // トーラスノットの座標生成 - 正しい(2,3)トーラスノット
+    // トーラスノットの座標生成
     const torusKnotPositions = new Float32Array(particleCount * 3);
     const p = 2;
     const q = 3;
@@ -74,7 +68,6 @@ export default function ParticleMorphing({
     for (let i = 0; i < particleCount; i++) {
       const u = (i / particleCount) * Math.PI * 2;
 
-      // (p, q) トーラスノットの正しい式
       const cosPU = Math.cos(p * u);
       const sinPU = Math.sin(p * u);
       const cosQU = Math.cos(q * u);
@@ -86,13 +79,11 @@ export default function ParticleMorphing({
       const y = r * sinQU;
       const z = -sinPU;
 
-      // チューブの太さ
       const tubeRadius = 0.3;
       const angle = Math.random() * Math.PI * 2;
       const tubeX = tubeRadius * Math.cos(angle);
       const tubeY = tubeRadius * Math.sin(angle);
 
-      // 法線方向にチューブを配置
       const nx = -cosQU * cosPU;
       const ny = -sinQU * cosPU;
       const nz = -sinPU;
@@ -123,29 +114,28 @@ export default function ParticleMorphing({
       helixPositions[i * 3 + 2] = baseZ + (Math.random() - 0.5) * spread;
     }
 
+    // 現在の位置配列
+    const currentPositions = new Float32Array(particleCount * 3);
+    currentPositions.set(torusKnotPositions);
+
     const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(torusKnotPositions, 3));
-    geometry.setAttribute('targetPosition', new THREE.BufferAttribute(helixPositions, 3));
+    geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3));
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        morphProgress: { value: savedMorphProgress }, // 保存した状態を復元
         time: { value: 0 },
-        warpMode: { value: warpModeRef.current ? 1.0 : 0.0 },
-        magneticMode: { value: magneticModeRef.current ? 1.0 : 0.0 },
+        warpMode: { value: warpMode ? 1.0 : 0.0 },
+        magneticMode: { value: magneticMode ? 1.0 : 0.0 },
         mousePos: { value: new THREE.Vector2(0, 0) }
       },
       vertexShader: `
-        uniform float morphProgress;
         uniform float time;
         uniform float warpMode;
         uniform float magneticMode;
         uniform vec2 mousePos;
-        attribute vec3 targetPosition;
-        varying vec3 vColor;
 
         void main() {
-          vec3 pos = mix(position, targetPosition, morphProgress);
+          vec3 pos = position;
 
           if (warpMode > 0.5) {
             float warpAmount = sin(pos.x * 2.0 + time) * 0.3;
@@ -159,12 +149,7 @@ export default function ParticleMorphing({
             pos.xy += toMouse * pullStrength;
           }
 
-          float colorMix = morphProgress;
-          vColor = mix(
-            vec3(0.3, 0.6, 1.0),
-            vec3(1.0, 0.4, 0.8),
-            colorMix
-          );
+          vec3 color = vec3(0.3, 0.6, 1.0);
 
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           gl_PointSize = 2.0 * (300.0 / -mvPosition.z);
@@ -172,15 +157,13 @@ export default function ParticleMorphing({
         }
       `,
       fragmentShader: `
-        varying vec3 vColor;
-
         void main() {
-          vec2 center = gl_PointCoord - vec0.5;
+          vec2 center = gl_PointCoord - vec2(0.5);
           float dist = length(center);
           if (dist > 0.5) discard;
 
           float alpha = 1.0 - (dist * 2.0);
-          gl_FragColor = vec4(vColor, alpha * 0.8);
+          gl_FragColor = vec4(0.5, 0.8, 1.0, alpha * 0.8);
         }
       `,
       transparent: true,
@@ -191,31 +174,35 @@ export default function ParticleMorphing({
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    particlesRef.current = particles;
-    materialRef.current = material;
-
-    // モーフ状態を復元
-    morphProgressRef.current = savedMorphProgress;
-
     let animationId: number;
+    let morphProgress = 0;
     const clock = new THREE.Clock();
 
     const animate = () => {
       animationId = requestAnimationFrame(animate);
 
       const elapsed = clock.getElapsedTime();
+
+      // モーフィングアニメーション
+      const targetMorphProgress = morphToHelixRef.current ? 1 : 0;
+      const morphSpeed = 0.02;
+
+      if (morphProgress < targetMorphProgress) {
+        morphProgress = Math.min(morphProgress + morphSpeed, targetMorphProgress);
+      } else if (morphProgress > targetMorphProgress) {
+        morphProgress = Math.max(morphProgress - morphSpeed, targetMorphProgress);
+      }
+
+      // 位置を補間（AboutModalと同じ方式）
+      const positions = geometry.attributes.position.array as Float32Array;
+      for (let i = 0; i < particleCount * 3; i++) {
+        positions[i] = torusKnotPositions[i] + (helixPositions[i] - torusKnotPositions[i]) * morphProgress;
+      }
+      geometry.attributes.position.needsUpdate = true;
+
       material.uniforms.time.value = elapsed;
       material.uniforms.warpMode.value = warpModeRef.current ? 1.0 : 0.0;
       material.uniforms.magneticMode.value = magneticModeRef.current ? 1.0 : 0.0;
-
-      const target = targetMorphRef.current;
-      const current = morphProgressRef.current;
-      const diff = target - current;
-
-      if (Math.abs(diff) > 0.001) {
-        morphProgressRef.current += diff * 0.02;
-        material.uniforms.morphProgress.value = morphProgressRef.current;
-      }
 
       particles.rotation.y = elapsed * 0.1;
       particles.rotation.x = Math.sin(elapsed * 0.05) * 0.2;
