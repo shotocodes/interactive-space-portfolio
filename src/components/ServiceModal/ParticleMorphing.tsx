@@ -300,7 +300,7 @@ export default function ParticleMorphing({
       material.dispose();
       renderer.dispose();
     };
-  }, [particleCount]);
+  }, []); // particleCountを削除して初回のみ実行
 
   return (
     <div
