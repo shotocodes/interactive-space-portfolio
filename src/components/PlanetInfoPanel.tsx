@@ -14,12 +14,36 @@ export default function PlanetInfoPanel() {
     setShowProjectModal,
     setShowServiceModal,
     setShowContactModal,
-    setIsTransitioning
+    setIsTransitioning,
+    showAboutModal,
+    showProjectModal,
+    showServiceModal,
+    showContactModal
   } = usePortfolioStore();
 
   const currentData = languageData[language];
 
   if (!planetInfoData) return null;
+
+  // 惑星の色定義（planetData.tsと同じ色）
+  const planetColors: { [key: string]: string } = {
+    '#about': '#ff6b6b',    // About - 赤っぽいピンク
+    '#projects': '#4ecdc4', // Projects - シアン
+    '#services': '#45b7d1', // Services - 青
+    '#contact': '#96ceb4'   // Contact - 緑
+  };
+
+  // 現在開いてるモーダルを検知
+  let currentOpenModal = null;
+  if (showAboutModal) currentOpenModal = '#about';
+  else if (showProjectModal) currentOpenModal = '#projects';
+  else if (showServiceModal) currentOpenModal = '#services';
+  else if (showContactModal) currentOpenModal = '#contact';
+
+  // ボタンの色を決定
+  const buttonColor = currentOpenModal === planetInfoData.link
+    ? planetColors[planetInfoData.link]
+    : undefined;
 
   const handleDetailClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -109,6 +133,10 @@ export default function PlanetInfoPanel() {
             href={planetInfoData.link}
             className="nav-button"
             onClick={handleDetailClick}
+            style={{
+              backgroundColor: buttonColor,
+              borderColor: buttonColor ? 'transparent' : undefined
+            }}
           >
             {currentData.ui.viewDetails}
           </a>

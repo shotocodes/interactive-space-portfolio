@@ -10,7 +10,8 @@ export default function RightInfo() {
         <br />
         インタラクティブポートフォリオ
       </p>
-      <div className="usage-tips">
+      {/* スマホでは非表示 */}
+      <div className="usage-tips hide-on-mobile">
         <p>☀️ 太陽をクリックでリロード</p>
         <p>🪐 惑星をクリックして詳細表示</p>
         <p>⚙️ 左メニューで設定変更</p>

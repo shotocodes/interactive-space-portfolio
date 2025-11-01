@@ -114,6 +114,25 @@ body {
   line-height: 1.4;
 }
 
+/* スマホでusage-tipsを非表示 */
+.hide-on-mobile {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none;
+  }
+
+  /* スマホでRightInfoを左寄せ */
+  .right-info {
+    text-align: left !important;
+    left: 20px !important;
+    right: auto !important;
+    transform: none !important;
+  }
+}
+
 .usage-tips {
   font-size: 0.8rem;
   opacity: 0.7;
@@ -161,6 +180,27 @@ body {
   line-height: 1.5;
   opacity: 0.9;
   margin-bottom: 15px;
+}
+
+/*
+  ============================================
+  📱 スマホ用 - PlanetInfoPanelのみ黒背景
+  ============================================
+  以下を globals.css の最後に追加してください
+*/
+
+/* PlanetInfoPanel - スマホで黒背景 */
+@media (max-width: 768px) {
+  .planet-info-panel {
+    background: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .planet-info-panel {
+    background: rgba(0, 0, 0, 0.98) !important;
+  }
 }
 
 .nav-button {
@@ -690,4 +730,3 @@ input[type="range"]::-moz-range-thumb {
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: rgba(230, 255, 40, 0.5);
 }
-
