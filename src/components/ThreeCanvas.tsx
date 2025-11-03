@@ -493,12 +493,11 @@ export default function ThreeCanvas() {
     // setupEventListeners 関数内の handleClick を以下に置き換えてください
 
 const handleClick = () => {
-  // モーダルまたはパネルが開いてる場合は何もしない
+  // モーダルが開いてる場合のみブロック（パネルは切り替え可能に）
   const hasModal = document.body.classList.contains('modal-open');
-  const hasPanel = document.body.classList.contains('panel-open');
 
-  if (hasModal || hasPanel) {
-    console.log('Modal or panel is open, click ignored');
+  if (hasModal) {
+    console.log('Modal is open, click ignored');
     return;
   }
 
@@ -506,12 +505,20 @@ const handleClick = () => {
   console.log('Click detected, hoveredPlanet:', currentHoveredPlanet);
   if (!raycasterRef.current || !cameraRef.current) return;
 
-  // 太陽クリック判定
+  // 太陽クリック判定（パネルが開いてる時もブロック）
+  const hasPanel = document.body.classList.contains('panel-open');
+
   if (sunRef.current) {
     raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current);
     const sunIntersects = raycasterRef.current.intersectObjects([sunRef.current]);
 
     if (sunIntersects.length > 0) {
+      // パネルが開いてる時は太陽クリック無効
+      if (hasPanel) {
+        console.log('Panel is open, sun click ignored');
+        return;
+      }
+
       console.log('Sun clicked');
       document.body.style.transition = 'opacity 0.8s ease';
       document.body.style.opacity = '0';
@@ -522,7 +529,7 @@ const handleClick = () => {
     }
   }
 
-  // 惑星クリック判定
+  // 惑星クリック判定（パネル開いてても切り替え可能）
   if (currentHoveredPlanet) {
     console.log('Planet clicked:', currentHoveredPlanet.userData);
     const data = currentHoveredPlanet.userData;

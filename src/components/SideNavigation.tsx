@@ -5,13 +5,21 @@ import { usePortfolioStore } from '@/store/usePortfolioStore';
 import { languageData } from '@/lib/data/languageData';
 
 export default function SideNavigation() {
-  const { language, toggleControls, setPlanetInfoData } = usePortfolioStore();
+  const { language, toggleControls, setPlanetInfoData, showControls } = usePortfolioStore();
   const currentData = languageData[language];
 
   const handleAction = (action: string) => {
     if (action === 'controls') {
+      // 設定パネルを開く前に、スマホの場合は他のパネルを閉じる
+      if (!showControls && window.innerWidth <= 768) {
+        setPlanetInfoData(null);
+      }
       toggleControls();
     } else if (action === 'sns') {
+      // スマホの場合は設定パネルを閉じる
+      if (window.innerWidth <= 768) {
+        usePortfolioStore.getState().setShowControls(false);
+      }
       setPlanetInfoData({
         name: currentData.actions.sns.name,
         description: currentData.actions.sns.description,
@@ -24,6 +32,10 @@ export default function SideNavigation() {
         ]
       });
     } else if (action === 'blog') {
+      // スマホの場合は設定パネルを閉じる
+      if (window.innerWidth <= 768) {
+        usePortfolioStore.getState().setShowControls(false);
+      }
       setPlanetInfoData({
         name: currentData.actions.blog.name,
         description: currentData.actions.blog.description,
