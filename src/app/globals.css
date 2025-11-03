@@ -805,23 +805,50 @@ input[type="range"]::-moz-range-thumb {
 
 /*
   ============================================
-  📱 z-index調整 - スマホでのレイヤー順序修正
+  📱 z-index完全修正 - レイヤー順序
   ============================================
 */
 
-/* スマホでRightInfoのz-indexを下げる */
-@media (max-width: 768px) {
-  .right-info {
-    z-index: 999 !important; /* パネル（1001）より下に */
-  }
-
-  .left-info {
-    z-index: 999 !important; /* パネル（1001）より下に */
-  }
+/* 基本レイヤー構造 */
+#container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1 !important; /* 一番下 */
 }
 
-/* パネル・モーダル開いてる時は太陽のクリックを無効化 */
-body.panel-open canvas,
-body.modal-open canvas {
-  pointer-events: none !important;
+.ui-overlay {
+  z-index: 1000 !important;
+}
+
+.left-info,
+.right-info {
+  z-index: 900 !important; /* パネルより下 */
+}
+
+.planet-info-panel,
+.control-panel {
+  z-index: 1100 !important; /* パネルを上に */
+}
+
+.side-navigation,
+.right-side-navigation {
+  z-index: 1002 !important;
+}
+
+.modal-overlay {
+  z-index: 9999 !important; /* モーダルは最上位 */
+}
+
+/* スマホでさらに調整 */
+@media (max-width: 768px) {
+  .right-info,
+  .left-info {
+    z-index: 800 !important; /* さらに下げる */
+  }
+
+  .planet-info-panel,
+  .control-panel {
+    z-index: 1200 !important; /* さらに上げる */
+  }
 }

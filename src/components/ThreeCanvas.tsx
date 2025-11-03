@@ -490,82 +490,93 @@ export default function ThreeCanvas() {
       checkIntersections();
     };
 
-    const handleClick = () => {
-      const currentHoveredPlanet = hoveredPlanetRef.current;
-      console.log('Click detected, hoveredPlanet:', currentHoveredPlanet);
-      if (!raycasterRef.current || !cameraRef.current) return;
+    // setupEventListeners 関数内の handleClick を以下に置き換えてください
 
-      // 太陽クリック判定
-      if (sunRef.current) {
-        raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current);
-        const sunIntersects = raycasterRef.current.intersectObjects([sunRef.current]);
+const handleClick = () => {
+  // モーダルまたはパネルが開いてる場合は何もしない
+  const hasModal = document.body.classList.contains('modal-open');
+  const hasPanel = document.body.classList.contains('panel-open');
 
-        if (sunIntersects.length > 0) {
-          console.log('Sun clicked');
-          document.body.style.transition = 'opacity 0.8s ease';
-          document.body.style.opacity = '0';
-          setTimeout(() => {
-            window.location.reload();
-          }, 800);
-          return;
+  if (hasModal || hasPanel) {
+    console.log('Modal or panel is open, click ignored');
+    return;
+  }
+
+  const currentHoveredPlanet = hoveredPlanetRef.current;
+  console.log('Click detected, hoveredPlanet:', currentHoveredPlanet);
+  if (!raycasterRef.current || !cameraRef.current) return;
+
+  // 太陽クリック判定
+  if (sunRef.current) {
+    raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current);
+    const sunIntersects = raycasterRef.current.intersectObjects([sunRef.current]);
+
+    if (sunIntersects.length > 0) {
+      console.log('Sun clicked');
+      document.body.style.transition = 'opacity 0.8s ease';
+      document.body.style.opacity = '0';
+      setTimeout(() => {
+        window.location.reload();
+      }, 800);
+      return;
+    }
+  }
+
+  // 惑星クリック判定
+  if (currentHoveredPlanet) {
+    console.log('Planet clicked:', currentHoveredPlanet.userData);
+    const data = currentHoveredPlanet.userData;
+    const currentLanguage = languageRef.current;
+    const currentData = languageData[currentLanguage];
+
+    console.log('Current language:', currentLanguage);
+
+    if (data.isActionPlanet) {
+      if (data.action === 'controls') {
+        usePortfolioStore.getState().toggleControls();
+      } else {
+        const actionData = currentData.actions[data.action as 'sns' | 'blog'];
+        let updatedData: any = {
+          name: actionData.name,
+          description: actionData.description,
+          isActionPlanet: true,
+          action: data.action
+        };
+
+        if (data.action === 'sns') {
+          updatedData.links = [
+            { name: "Twitter", url: "https://twitter.com/your_twitter" },
+            { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
+            { name: "Instagram", url: "https://instagram.com/your_instagram" }
+          ];
+        } else if (data.action === 'blog') {
+          updatedData.links = [
+            {
+              name: currentLanguage === 'ja' ? "技術ブログ" : "Tech Blog",
+              url: "https://your-tech-blog.com"
+            },
+            { name: "Qiita", url: "https://qiita.com/your_qiita" },
+            { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+          ];
         }
+
+        setPlanetInfoData(updatedData);
       }
+    } else {
+      const planetKey = data.name.toLowerCase() as 'about' | 'projects' | 'services' | 'contact';
+      const planetInfo = currentData.planets[planetKey];
 
-      // 惑星クリック判定
-      if (currentHoveredPlanet) {
-        console.log('Planet clicked:', currentHoveredPlanet.userData);
-        const data = currentHoveredPlanet.userData;
-        const currentLanguage = languageRef.current;
-        const currentData = languageData[currentLanguage];
-
-        console.log('Current language:', currentLanguage);
-
-        if (data.isActionPlanet) {
-          if (data.action === 'controls') {
-            usePortfolioStore.getState().toggleControls();
-          } else {
-            const actionData = currentData.actions[data.action as 'sns' | 'blog'];
-            let updatedData: any = {
-              name: actionData.name,
-              description: actionData.description,
-              isActionPlanet: true,
-              action: data.action
-            };
-
-            if (data.action === 'sns') {
-              updatedData.links = [
-                { name: "Twitter", url: "https://twitter.com/your_twitter" },
-                { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
-                { name: "Instagram", url: "https://instagram.com/your_instagram" }
-              ];
-            } else if (data.action === 'blog') {
-              updatedData.links = [
-                {
-                  name: currentLanguage === 'ja' ? "技術ブログ" : "Tech Blog",
-                  url: "https://your-tech-blog.com"
-                },
-                { name: "Qiita", url: "https://qiita.com/your_qiita" },
-                { name: "Zenn", url: "https://zenn.dev/your_zenn" }
-              ];
-            }
-
-            setPlanetInfoData(updatedData);
-          }
-        } else {
-          const planetKey = data.name.toLowerCase() as 'about' | 'projects' | 'services' | 'contact';
-          const planetInfo = currentData.planets[planetKey];
-
-          if (planetInfo) {
-            console.log('Setting planet info:', planetInfo);
-            setPlanetInfoData({
-              name: planetInfo.name,
-              description: planetInfo.description,
-              link: `#${planetKey}`
-            });
-          }
-        }
+      if (planetInfo) {
+        console.log('Setting planet info:', planetInfo);
+        setPlanetInfoData({
+          name: planetInfo.name,
+          description: planetInfo.description,
+          link: `#${planetKey}`
+        });
       }
-    };
+    }
+  }
+};
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('click', handleClick);

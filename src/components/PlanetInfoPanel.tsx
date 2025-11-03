@@ -1,6 +1,7 @@
 // components/PlanetInfoPanel.tsx
 'use client';
 
+import { useEffect } from 'react';
 import { usePortfolioStore } from '@/store/usePortfolioStore';
 import { languageData } from '@/lib/data/languageData';
 
@@ -14,10 +15,18 @@ export default function PlanetInfoPanel() {
     setShowProjectModal,
     setShowServiceModal,
     setShowContactModal,
-    setIsTransitioning
+    setIsTransitioning,
+    setShowControls // 追加
   } = usePortfolioStore();
 
   const currentData = languageData[language];
+
+  // パネルが開いたら設定パネルを閉じる（スマホのみ）
+  useEffect(() => {
+    if (showPlanetInfo && window.innerWidth <= 768) {
+      setShowControls(false);
+    }
+  }, [showPlanetInfo, setShowControls]);
 
   if (!planetInfoData) return null;
 
