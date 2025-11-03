@@ -186,7 +186,6 @@ body {
   ============================================
   📱 スマホ用 - PlanetInfoPanelのみ黒背景
   ============================================
-  以下を globals.css の最後に追加してください
 */
 
 /* PlanetInfoPanel - スマホで黒背景 */
@@ -195,10 +194,20 @@ body {
     background: rgba(0, 0, 0, 0.95) !important;
     backdrop-filter: blur(20px);
   }
+
+  /* ControlPanel - スマホで黒背景 */
+  .control-panel {
+    background: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(20px);
+  }
 }
 
 @media (max-width: 480px) {
   .planet-info-panel {
+    background: rgba(0, 0, 0, 0.98) !important;
+  }
+
+  .control-panel {
     background: rgba(0, 0, 0, 0.98) !important;
   }
 }
@@ -729,4 +738,39 @@ input[type="range"]::-moz-range-thumb {
 
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: rgba(230, 255, 40, 0.5);
+}
+
+
+/*
+  ============================================
+  🎨 パネルの枠線グローエフェクト（PC・スマホ共通）
+  ============================================
+*/
+
+/* About - 赤ピンクのグロー */
+.planet-info-panel.glow-about {
+  border-color: #ff6b6b !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 20px #ff6b6b, 0 0 40px rgba(255, 107, 107, 0.4) !important;
+}
+
+/* Projects - シアンのグロー */
+.planet-info-panel.glow-projects {
+  border-color: #4ecdc4 !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 20px #4ecdc4, 0 0 40px rgba(78, 205, 196, 0.4) !important;
+}
+
+/* Services - 青のグロー */
+.planet-info-panel.glow-services {
+  border-color: #45b7d1 !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 20px #45b7d1, 0 0 40px rgba(69, 183, 209, 0.4) !important;
+}
+
+/* Contact - 緑のグロー */
+.planet-info-panel.glow-contact {
+  border-color: #96ceb4 !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 20px #96ceb4, 0 0 40px rgba(150, 206, 180, 0.4) !important;
 }
