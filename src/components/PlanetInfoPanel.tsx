@@ -21,15 +21,19 @@ export default function PlanetInfoPanel() {
 
   if (!planetInfoData) return null;
 
-  // 惑星のlinkに応じてクラス名を決定（モーダルの開閉状態は見ない）
+  // グローエフェクトのクラス名を決定
   let glowClass = '';
+
+  // 通常の惑星
   if (planetInfoData.link === '#about') glowClass = 'glow-about';
   else if (planetInfoData.link === '#projects') glowClass = 'glow-projects';
   else if (planetInfoData.link === '#services') glowClass = 'glow-services';
   else if (planetInfoData.link === '#contact') glowClass = 'glow-contact';
 
-  console.log('planetInfoData.link:', planetInfoData.link);
-  console.log('glowClass:', glowClass);
+  // アクション惑星
+  else if (planetInfoData.action === 'controls') glowClass = 'glow-controls';
+  else if (planetInfoData.action === 'sns') glowClass = 'glow-sns';
+  else if (planetInfoData.action === 'blog') glowClass = 'glow-blog';
 
   const handleDetailClick = (e: React.MouseEvent) => {
     e.preventDefault();

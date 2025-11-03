@@ -5,28 +5,28 @@ export const planetData: PlanetData[] = [
   {
     name: "About",
     description: "私について、経歴、スキルセットなどをご紹介します",
-    color: 0xff6b6b,
+    color: 0xff6b6b,  // 赤ピンク（変更なし）
     size: 0.32,
     link: "#about"
   },
   {
     name: "Projects",
     description: "これまでに手がけたプロジェクトと実績をご覧ください",
-    color: 0x4ecdc4,
+    color: 0xff9500,  // オレンジ（旧: 0x4ecdc4 シアン）
     size: 0.4,
     link: "#projects"
   },
   {
     name: "Services",
     description: "技術スタック、ツール、専門分野について詳しく説明します",
-    color: 0x45b7d1,
+    color: 0x00d4ff,  // 明るい青（旧: 0x45b7d1 青）
     size: 0.35,
     link: "#services"
   },
   {
     name: "Contact",
     description: "お仕事のご依頼、ご相談はこちらからお気軽にどうぞ",
-    color: 0x96ceb4,
+    color: 0x00ff88,  // 明るい緑（旧: 0x96ceb4 緑）
     size: 0.29,
     link: "#contact"
   }

@@ -32,6 +32,27 @@ export default function Home() {
     isTransitioning
   } = usePortfolioStore();
 
+  // モーダル・パネルが開いてる時にbodyにクラスを追加
+  useEffect(() => {
+    const hasModal = showAboutModal || showProjectModal || showServiceModal || showContactModal;
+
+    if (hasModal) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    if (showPlanetInfo) {
+      document.body.classList.add('panel-open');
+    } else {
+      document.body.classList.remove('panel-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open', 'panel-open');
+    };
+  }, [showAboutModal, showProjectModal, showServiceModal, showContactModal, showPlanetInfo]);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (!showPlanetInfo) return;
