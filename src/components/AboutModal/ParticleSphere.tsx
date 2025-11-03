@@ -48,6 +48,12 @@ export default function ParticleSphere({
       container.removeChild(container.firstChild);
     }
 
+    // モバイル判定
+    const isMobile = window.innerWidth <= 768;
+
+    // サイズをモバイルとPCで調整
+    const sizeMultiplier = isMobile ? 0.6 : 0.75; // PC: 25%縮小, モバイル: 40%縮小
+
     // シーン、カメラ、レンダラーのセットアップ
     const scene = new THREE.Scene();
     sceneRef.current = scene;
@@ -85,13 +91,13 @@ export default function ParticleSphere({
     };
     document.addEventListener('mousemove', handleMouseMove);
 
-    // 球体の座標を生成
+    // 球体の座標を生成（サイズダウン）
     for (let i = 0; i < particleCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
 
-      const minRadius = 1.2;
-      const maxRadius = 2.0;
+      const minRadius = 1.2 * sizeMultiplier;
+      const maxRadius = 2.0 * sizeMultiplier;
       const radius = minRadius + Math.random() * (maxRadius - minRadius);
 
       const x = radius * Math.sin(phi) * Math.cos(theta);
@@ -107,8 +113,8 @@ export default function ParticleSphere({
       sizes[i] = 0.01 + normalizedDistance * 0.04;
     }
 
-    // 20面体の座標を生成
-    const icosahedronGeometry = new THREE.IcosahedronGeometry(1.8, 2);
+    // 20面体の座標を生成（サイズダウン）
+    const icosahedronGeometry = new THREE.IcosahedronGeometry(1.8 * sizeMultiplier, 2);
     const icosahedronVertices = icosahedronGeometry.attributes.position.array;
     const icosahedronVertexCount = icosahedronVertices.length / 3;
 
