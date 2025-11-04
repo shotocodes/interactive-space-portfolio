@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OGP Image - Shoto Moriyama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+      position: relative;
+    }
+
+    .container {
+      width: 1200px;
+      height: 630px;
+      background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f0f 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 星空背景 */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, white, transparent),
+        radial-gradient(2px 2px at 60px 70px, white, transparent),
+        radial-gradient(1px 1px at 50px 50px, white, transparent),
+        radial-gradient(1px 1px at 130px 80px, white, transparent),
+        radial-gradient(2px 2px at 90px 10px, white, transparent),
+        radial-gradient(1px 1px at 200px 150px, white, transparent),
+        radial-gradient(1px 1px at 300px 200px, white, transparent),
+        radial-gradient(2px 2px at 400px 100px, white, transparent),
+        radial-gradient(1px 1px at 500px 250px, white, transparent),
+        radial-gradient(1px 1px at 600px 150px, white, transparent),
+        radial-gradient(2px 2px at 700px 300px, white, transparent),
+        radial-gradient(1px 1px at 800px 200px, white, transparent),
+        radial-gradient(1px 1px at 900px 400px, white, transparent),
+        radial-gradient(2px 2px at 1000px 250px, white, transparent),
+        radial-gradient(1px 1px at 1100px 350px, white, transparent);
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      opacity: 0.5;
+    }
+
+    /* 中央の輝く太陽 */
+    .sun {
+      position: absolute;
+      top: 50%;
+      left: 25%;
+      transform: translate(-50%, -50%);
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffff00 0%, #ffa500 50%, #ff4500 100%);
+      box-shadow:
+        0 0 80px #ff6b35,
+        0 0 160px #ff6b35,
+        0 0 240px rgba(255, 107, 53, 0.6),
+        inset 0 0 60px rgba(255, 255, 0, 0.3);
+    }
+
+    /* 太陽のグロー（外側） */
+    .sun::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      left: -30px;
+      right: -30px;
+      bottom: -30px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.3) 0%, transparent 70%);
+    }
+
+    /* 惑星たち（左側に配置） */
+    .planet {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    /* 赤ピンク惑星（左上） */
+    .planet1 {
+      top: 15%;
+      left: 8%;
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle at 30% 30%, #ff8b8b, #ff6b6b);
+      box-shadow:
+        0 0 40px rgba(255, 107, 107, 0.8),
+        inset -10px -10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 青惑星（左下） */
+    .planet2 {
+      bottom: 18%;
+      left: 12%;
+      width: 90px;
+      height: 90px;
+      background: radial-gradient(circle at 30% 30%, #40e4ff, #00d4ff);
+      box-shadow:
+        0 0 50px rgba(0, 212, 255, 0.8),
+        inset -15px -15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 緑惑星（中央下） */
+    .planet3 {
+      bottom: 12%;
+      left: 38%;
+      width: 55px;
+      height: 55px;
+      background: radial-gradient(circle at 30% 30%, #40ffaa, #00ff88);
+      box-shadow:
+        0 0 35px rgba(0, 255, 136, 0.8),
+        inset -8px -8px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 小さい惑星たち（装飾） */
+    .planet4 {
+      top: 50%;
+      left: 45%;
+      width: 25px;
+      height: 25px;
+      background: radial-gradient(circle at 30% 30%, #ffb366, #ff9500);
+      box-shadow: 0 0 20px rgba(255, 149, 0, 0.6);
+    }
+
+    /* 軌道線（薄く） */
+    .orbit {
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      top: 50%;
+      left: 25%;
+      transform: translate(-50%, -50%);
+    }
+
+    .orbit1 {
+      width: 400px;
+      height: 400px;
+    }
+
+    .orbit2 {
+      width: 550px;
+      height: 550px;
+    }
+
+    /* テキストコンテンツ（右側） */
+    .content {
+      position: absolute;
+      top: 50%;
+      right: 100px;
+      transform: translateY(-50%);
+      text-align: right;
+      z-index: 10;
+    }
+
+    .title {
+      font-size: 80px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+      text-shadow:
+        0 0 30px rgba(230, 255, 40, 0.6),
+        0 0 60px rgba(230, 255, 40, 0.4),
+        2px 2px 4px rgba(0, 0, 0, 0.5);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: 34px;
+      font-weight: 400;
+      color: #e6ff28;
+      letter-spacing: 5px;
+      margin-bottom: 35px;
+      text-shadow:
+        0 0 15px rgba(230, 255, 40, 0.4),
+        1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .description {
+      font-size: 22px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 2px;
+      line-height: 1.7;
+      max-width: 500px;
+      margin-left: auto;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(230, 255, 40, 0.15);
+      color: #e6ff28;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-top: 25px;
+      border: 2px solid rgba(230, 255, 40, 0.5);
+      box-shadow:
+        0 0 20px rgba(230, 255, 40, 0.3),
+        inset 0 0 10px rgba(230, 255, 40, 0.1);
+    }
+
+    /* URL表示 */
+    .url {
+      position: absolute;
+      bottom: 30px;
+      right: 100px;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 2px;
+      font-weight: 300;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 星空背景 -->
+    <div class="stars"></div>
+
+    <!-- 軌道線 -->
+    <div class="orbit orbit1"></div>
+    <div class="orbit orbit2"></div>
+
+    <!-- 太陽 -->
+    <div class="sun"></div>
+
+    <!-- 惑星たち（左側に配置） -->
+    <div class="planet planet1"></div>
+    <div class="planet planet2"></div>
+    <div class="planet planet3"></div>
+    <div class="planet planet4"></div>
+
+    <!-- テキストコンテンツ（右側） -->
+    <div class="content">
+      <h1 class="title">SHOTO<br>MORIYAMA</h1>
+      <p class="subtitle">Interactive Portfolio</p>
+      <p class="description">
+        地動説をコンセプトにした<br>
+        インタラクティブポートフォリオ
+      </p>
+      <span class="tag">SOLAR SYSTEM DESIGN</span>
+    </div>
+
+    <!-- URL -->
+    <div class="url">shoto.tech</div>
+  </div>
+</body>
+</html>
