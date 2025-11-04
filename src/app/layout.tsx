@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   creator: 'Shoto Moriyama',
   publisher: 'Shoto Moriyama',
 
-  // OGP設定
+  // OGP設定（絶対URLに変更）
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: 'Solar System Portfolio - 地動説をコンセプトにしたインタラクティブポートフォリオ',
     images: [
       {
-        url: '/og-image.png', // 後で作成
+        url: 'https://shoto.tech/og-image.png', // 絶対URLに変更
         width: 1200,
         height: 630,
         alt: 'Shoto Moriyama Portfolio - Solar System',
@@ -37,13 +37,12 @@ export const metadata: Metadata = {
     ],
   },
 
-  // Twitter Card
+  // Twitter Card（絶対URLに変更）
   twitter: {
     card: 'summary_large_image',
     title: 'Shoto Moriyama | Interactive Space Portfolio',
     description: 'Solar System Portfolio - 地動説をコンセプトにしたインタラクティブポートフォリオ',
-    images: ['/og-image.png'],
-    creator: '@your_twitter', // Twitterアカウントがあれば
+    images: ['https://shoto.tech/og-image.png'], // 絶対URLに変更
   },
 
   // その他
