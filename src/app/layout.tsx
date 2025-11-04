@@ -9,6 +9,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
 };
+
 // Metadata設定（OGP含む）
 export const metadata: Metadata = {
   title: 'Shoto Moriyama | Interactive Space Portfolio',
