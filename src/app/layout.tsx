@@ -49,6 +49,10 @@ export const metadata: Metadata = {
     creator: '@ShotoMoriyama',
   },
 
+  verification: {
+    google: 'eNfKKgb9TWKwT2F-V6XE7x7q88NYVwejmlBPpH7Z3yI',
+  },
+
   robots: {
     index: true,
     follow: true,
