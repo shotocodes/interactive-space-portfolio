@@ -67,20 +67,20 @@ export default function ServiceModal({ isOpen, onClose }: ServiceModalProps) {
     {
       icon: '💻',
       title: 'Web Development',
-      description: 'Full-stack development with modern technologies',
-      features: ['Next.js / React Applications', 'Responsive Design', 'Performance Optimization']
+      description: 'Modern websites built with Next.js and React. From design to deployment.',
+      features: ['Corporate Sites & Landing Pages', 'Next.js / React Applications', 'WordPress Development', 'Responsive Design & SEO']
     },
     {
       icon: '🎨',
-      title: 'UI/UX Design',
-      description: 'User-centered design that converts',
-      features: ['User Experience Design', 'Prototyping', 'Interactive Design']
+      title: 'Design',
+      description: 'UI design, logo creation, and branding. Custom design crafted from scratch.',
+      features: ['UI/UX Design', 'Logo & Branding', 'Signage Design', 'Prototyping & Mockups']
     },
     {
-      icon: '⚡',
-      title: 'Automation & Integration',
-      description: 'Streamline your workflow',
-      features: ['Workflow Automation', 'API Integration', 'Data Processing']
+      icon: '⚙️',
+      title: 'Maintenance & Operations',
+      description: 'Continuous support for stable operation. Security and performance optimization.',
+      features: ['Regular Updates & Maintenance', 'Security & Backup Management', 'Performance Optimization', 'Content Updates']
     }
   ];
 
@@ -105,21 +105,21 @@ export default function ServiceModal({ isOpen, onClose }: ServiceModalProps) {
     {
       name: 'Starter',
       description: 'Perfect for small projects',
-      features: ['Basic Website', 'Responsive Design', '1 Month Support'],
-      price: 'お問い合わせ'
+      features: ['Basic Website (1-5 pages)', 'Responsive Design', '1 Month Support'],
+      price: 'Contact Us'
     },
     {
       name: 'Professional',
       description: 'For growing businesses',
-      features: ['Custom Application', 'Advanced Features', '3 Months Support', 'API Integration'],
-      price: 'お問い合わせ',
+      features: ['Custom Website (6-10 pages)', 'CMS Integration', '3 Months Support', 'SEO Optimization'],
+      price: 'Contact Us',
       featured: true
     },
     {
       name: 'Enterprise',
       description: 'Full custom solution',
-      features: ['Full Custom Solution', 'Unlimited Features', '6 Months Support', 'Team Training'],
-      price: 'お問い合わせ'
+      features: ['Full Custom Application', 'E-Commerce / Advanced Features', '6 Months Support', 'Maintenance Contract'],
+      price: 'Contact Us'
     }
   ];
 

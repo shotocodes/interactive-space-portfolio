@@ -55,28 +55,28 @@ export default function FeaturedWork() {
 
   const projects = [
     {
-      title: 'Personal Portfolio 2024',
-      description: 'Interactive 3D particle visualization with seamless animations',
-      tech: ['Next.js', 'TypeScript', 'Three.js'],
-      result: 'Modern & Unique Design',
+      title: 'Sato Kohmuten - Site Renewal',
+      description: 'Construction company website renewal. 150% increase in inquiries.',
+      tech: ['WordPress', 'PHP', 'Responsive'],
+      result: '150% Inquiry Increase',
       status: 'completed',
-      link: '#'
+      link: 'https://www.sato-kohmuten.com/'
     },
     {
-      title: 'E-Commerce Platform',
-      description: 'Automated business system with integrated payment processing',
-      tech: ['Next.js', 'Stripe', 'Automation'],
-      result: 'In Development',
-      status: 'in-progress',
-      link: null
+      title: 'Interactive Space Portfolio',
+      description: '3D interactive portfolio with Three.js particle systems and custom shaders.',
+      tech: ['Next.js', 'Three.js', 'TypeScript'],
+      result: 'Active',
+      status: 'completed',
+      link: 'https://www.shoto.tech/'
     },
     {
-      title: 'SaaS Dashboard',
-      description: 'Data visualization system with real-time analytics',
-      tech: ['React', 'D3.js', 'API Integration'],
-      result: 'Planning Phase',
-      status: 'planning',
-      link: null
+      title: 'JP Portfolio & Business Hub',
+      description: 'Full-featured Japanese portfolio with pricing calculator and support hub.',
+      tech: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
+      result: 'Active',
+      status: 'completed',
+      link: 'https://shotomoriyama.com/'
     }
   ];
 

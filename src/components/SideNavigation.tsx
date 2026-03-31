@@ -26,9 +26,10 @@ export default function SideNavigation() {
         isActionPlanet: true,
         action: 'sns',
         links: [
-          { name: "Twitter", url: "https://twitter.com/your_twitter" },
-          { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
-          { name: "Instagram", url: "https://instagram.com/your_instagram" }
+          { name: "X (Twitter)", url: "https://x.com/ShotoMoriyama" },
+          { name: "LinkedIn", url: "https://www.linkedin.com/in/shotomoriyama/" },
+          { name: "Instagram", url: "https://www.instagram.com/sh0t0x72/" },
+          { name: "GitHub", url: "https://github.com/shotocodes" }
         ]
       });
     } else if (action === 'blog') {
@@ -43,11 +44,10 @@ export default function SideNavigation() {
         action: 'blog',
         links: [
           {
-            name: language === 'ja' ? "技術ブログ" : "Tech Blog",
-            url: "https://your-tech-blog.com"
+            name: language === 'ja' ? "Sho-tolog" : "Sho-tolog",
+            url: "https://sho-tolog.com/"
           },
-          { name: "Qiita", url: "https://qiita.com/your_qiita" },
-          { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+          { name: "note", url: "https://note.com/sh0t0" }
         ]
       });
     }

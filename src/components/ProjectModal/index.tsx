@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePortfolioStore } from '@/store/usePortfolioStore';
 import ParticleMorphing from './ParticleMorphing';
 import ProjectSettingsPanel from './ProjectSettingsPanel';
 import styles from './ProjectModal.module.css';
@@ -12,6 +13,7 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
+  const { setShowContactModal, setIsTransitioning } = usePortfolioStore();
   const [showSettings, setShowSettings] = useState(false);
   const [shapeType, setShapeType] = useState<'torusKnot' | 'helix'>('torusKnot');
   const [particleCount, setParticleCount] = useState(15000);
@@ -20,9 +22,8 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
   const [displayedText, setDisplayedText] = useState('');
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
-  const fullText = 'Building Something Amazing';
+  const fullText = 'Crafted With Purpose';
 
-  // ESCキーで閉じる
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -39,7 +40,6 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
     };
   }, [isOpen, onClose]);
 
-  // タイプライター効果
   useEffect(() => {
     if (!isOpen) return;
 
@@ -61,10 +61,57 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
 
   if (!isOpen) return null;
 
+  const clientWorks = [
+    {
+      title: 'Sato Kohmuten - Corporate Site Renewal',
+      description: 'Full website renewal for a construction company. End-to-end from planning and design to implementation.',
+      tech: ['WordPress', 'PHP', 'Responsive Design'],
+      result: '150% increase in inquiries',
+      url: 'https://www.sato-kohmuten.com/',
+      year: '2025',
+      testimonial: 'Through careful listening, our vision was brought to life. The finished site exceeded expectations.'
+    },
+    {
+      title: 'Otakara Hiroba - Corporate Site',
+      description: 'Service site design and WordPress implementation. Delivered within a tight 2-week deadline.',
+      tech: ['WordPress', 'PHP', 'Custom Design'],
+      result: 'On-time delivery, high client satisfaction',
+      url: 'https://www.otakarahiroba05.com/',
+      year: '2026',
+      testimonial: 'Despite the tight timeline, a high-quality site was delivered. Great response time and very reliable.'
+    }
+  ];
+
+  const personalProjects = [
+    {
+      title: 'Interactive Space Portfolio',
+      description: 'This site. 3D interactive portfolio built with Three.js particle systems and custom shaders.',
+      tech: ['Next.js', 'Three.js', 'TypeScript'],
+      status: 'Active',
+      url: 'https://www.shoto.tech/',
+      year: '2024'
+    },
+    {
+      title: 'Sho-tolog',
+      description: 'Personal tech blog sharing web development insights, AI tools, and freelance experiences.',
+      tech: ['WordPress', 'PHP', 'SEO'],
+      status: 'Active',
+      url: 'https://sho-tolog.com/',
+      year: '2024'
+    },
+    {
+      title: 'JP Portfolio',
+      description: 'Japanese portfolio site with pricing calculator, support hub, and blog system.',
+      tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+      status: 'Active',
+      url: 'https://shotomoriyama.com/',
+      year: '2025'
+    }
+  ];
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
-        {/* 左上: 設定ボタン */}
         <button
           className={styles.settingsButton}
           onClick={() => setShowSettings(!showSettings)}
@@ -72,7 +119,6 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           ⚙️
         </button>
 
-        {/* 設定パネル */}
         {showSettings && (
           <ProjectSettingsPanel
             shapeType={shapeType}
@@ -86,17 +132,14 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           />
         )}
 
-        {/* 右上: ページタイトル */}
         <div className={styles.pageTitle}>Projects</div>
 
-        {/* 右上: 閉じるボタン */}
         <button className={styles.closeButton} onClick={onClose}>
           ✕
         </button>
 
-        {/* スクロールコンテナ */}
         <div className={styles.scrollContainer}>
-          {/* ヒーローセクション - 形状切り替え */}
+          {/* Hero Section */}
           <section className={styles.heroSection}>
             <div className={styles.particleContainer}>
               <ParticleMorphing
@@ -107,7 +150,6 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
               />
             </div>
 
-            {/* タイプライターテキスト */}
             <div className={styles.heroContent}>
               <h1 className={styles.typewriterHeading}>
                 {displayedText}
@@ -116,44 +158,122 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
             </div>
           </section>
 
-          {/* Coming Soon セクション */}
+          {/* Client Works */}
           <section className={styles.comingSoonSection}>
             <div className={styles.container}>
-              <h2 className={styles.sectionTitle}>Projects</h2>
+              <h2 className={styles.sectionTitle}>Client Work</h2>
 
-              <div className={styles.messageContent}>
-                <p className={styles.messageText}>
-                  I'm currently working on exciting projects.
-                </p>
-                <p className={styles.messageText}>
-                  Check back soon to see what I've built.
-                </p>
-
-                <p className={styles.messageTextJa}>
-                  現在、新しいプロジェクトを制作中です。
-                </p>
-                <p className={styles.messageTextJa}>
-                  完成したらここで公開します。
-                </p>
-              </div>
-
-              {/* 予告カード */}
               <div className={styles.previewGrid}>
-                {[1, 2, 3].map((item) => (
-                  <div key={item} className={styles.previewCard}>
-                    <div className={styles.previewIcon}>⏳</div>
-                    <h3 className={styles.previewTitle}>Coming Soon</h3>
-                    <p className={styles.previewDescription}>
-                      Exciting project in development
+                {clientWorks.map((work, index) => (
+                  <div key={index} className={styles.previewCard}>
+                    <div className={styles.previewIcon}>💼</div>
+                    <h3 className={styles.previewTitle}>{work.title}</h3>
+                    <p className={styles.previewDescription}>{work.description}</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.8rem' }}>
+                      {work.tech.map((t, i) => (
+                        <span key={i} style={{
+                          fontSize: '0.7rem',
+                          padding: '0.2rem 0.5rem',
+                          background: 'rgba(255,255,255,0.08)',
+                          borderRadius: '4px',
+                          color: 'rgba(255,255,255,0.6)'
+                        }}>{t}</span>
+                      ))}
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: '#00d4ff', marginTop: '0.8rem' }}>
+                      {work.result}
                     </p>
+                    <p style={{
+                      fontSize: '0.75rem',
+                      color: 'rgba(255,255,255,0.4)',
+                      marginTop: '0.6rem',
+                      fontStyle: 'italic'
+                    }}>
+                      &ldquo;{work.testimonial}&rdquo;
+                    </p>
+                    <a
+                      href={work.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-block',
+                        marginTop: '1rem',
+                        fontSize: '0.8rem',
+                        color: '#e6ff28',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      Visit Site →
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Personal Projects */}
+          <section className={styles.comingSoonSection} style={{ paddingTop: 0 }}>
+            <div className={styles.container}>
+              <h2 className={styles.sectionTitle}>Personal Projects</h2>
+
+              <div className={styles.previewGrid}>
+                {personalProjects.map((project, index) => (
+                  <div key={index} className={styles.previewCard}>
+                    <div className={styles.previewIcon}>🚀</div>
+                    <h3 className={styles.previewTitle}>{project.title}</h3>
+                    <p className={styles.previewDescription}>{project.description}</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.8rem' }}>
+                      {project.tech.map((t, i) => (
+                        <span key={i} style={{
+                          fontSize: '0.7rem',
+                          padding: '0.2rem 0.5rem',
+                          background: 'rgba(255,255,255,0.08)',
+                          borderRadius: '4px',
+                          color: 'rgba(255,255,255,0.6)'
+                        }}>{t}</span>
+                      ))}
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: '#00ff88', marginTop: '0.8rem' }}>
+                      {project.status}
+                    </p>
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-block',
+                        marginTop: '0.6rem',
+                        fontSize: '0.8rem',
+                        color: '#e6ff28',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      Visit Site →
+                    </a>
                   </div>
                 ))}
               </div>
 
-              {/* CTAボタン */}
-              <button className={styles.backButton} onClick={onClose}>
-                ← Back to Home
-              </button>
+              {/* CTA */}
+              <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+                <button
+                  className={styles.backButton}
+                  onClick={() => {
+                    setIsTransitioning(true);
+                    onClose();
+                    setTimeout(() => {
+                      setShowContactModal(true);
+                      setIsTransitioning(false);
+                    }, 300);
+                  }}
+                  style={{ marginRight: '1rem' }}
+                >
+                  Start a Project →
+                </button>
+                <button className={styles.backButton} onClick={onClose}>
+                  ← Back to Home
+                </button>
+              </div>
             </div>
           </section>
         </div>

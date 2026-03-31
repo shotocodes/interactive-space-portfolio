@@ -552,18 +552,18 @@ const handleClick = () => {
 
         if (data.action === 'sns') {
           updatedData.links = [
-            { name: "Twitter", url: "https://twitter.com/your_twitter" },
-            { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
-            { name: "Instagram", url: "https://instagram.com/your_instagram" }
+            { name: "X (Twitter)", url: "https://x.com/ShotoMoriyama" },
+            { name: "LinkedIn", url: "https://www.linkedin.com/in/shotomoriyama/" },
+            { name: "Instagram", url: "https://www.instagram.com/sh0t0x72/" },
+            { name: "GitHub", url: "https://github.com/shotocodes" }
           ];
         } else if (data.action === 'blog') {
           updatedData.links = [
             {
-              name: currentLanguage === 'ja' ? "技術ブログ" : "Tech Blog",
-              url: "https://your-tech-blog.com"
+              name: "Sho-tolog",
+              url: "https://sho-tolog.com/"
             },
-            { name: "Qiita", url: "https://qiita.com/your_qiita" },
-            { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+            { name: "note", url: "https://note.com/sh0t0" }
           ];
         }
 

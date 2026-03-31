@@ -42,26 +42,26 @@ export const actionPlanetData: ActionPlanetData[] = [
   },
   {
     name: "SNS Links",
-    description: "私のソーシャルメディアアカウントをご覧いただけます。最新の活動状況や日々の気づきをシェアしています。",
+    description: "Connect with me on social media. Stay updated on my latest activities and insights.",
     color: 0x1da1f2,
     size: 0.2,
     action: "sns",
     links: [
-      { name: "Twitter", url: "https://twitter.com/your_twitter" },
-      { name: "LinkedIn", url: "https://linkedin.com/in/your_linkedin" },
-      { name: "Instagram", url: "https://instagram.com/your_instagram" }
+      { name: "X (Twitter)", url: "https://x.com/ShotoMoriyama" },
+      { name: "LinkedIn", url: "https://www.linkedin.com/in/shotomoriyama/" },
+      { name: "Instagram", url: "https://www.instagram.com/sh0t0x72/" },
+      { name: "GitHub", url: "https://github.com/shotocodes" }
     ]
   },
   {
     name: "Blog & Articles",
-    description: "技術記事、開発に関する学びや経験をまとめたブログです。最新のテクノロジーや開発手法について発信しています。",
+    description: "Read my technical articles and development insights. Sharing knowledge about latest technologies and methodologies.",
     color: 0xff6b35,
     size: 0.2,
     action: "blog",
     links: [
-      { name: "技術ブログ", url: "https://your-tech-blog.com" },
-      { name: "Qiita", url: "https://qiita.com/your_qiita" },
-      { name: "Zenn", url: "https://zenn.dev/your_zenn" }
+      { name: "Sho-tolog", url: "https://sho-tolog.com/" },
+      { name: "note", url: "https://note.com/sh0t0" }
     ]
   }
 ];

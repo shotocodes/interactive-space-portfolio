@@ -230,15 +230,15 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 <div className={styles.contactInfoCard}>
                   <div className={styles.contactIcon}>📧</div>
                   <h3 className={styles.contactInfoTitle}>Email</h3>
-                  <a href="mailto:your-email@example.com" className={styles.contactInfoLink}>
-                    your-email@example.com
+                  <a href="mailto:0sdm0.moriyama@gmail.com" className={styles.contactInfoLink}>
+                    0sdm0.moriyama@gmail.com
                   </a>
                 </div>
 
                 <div className={styles.contactInfoCard}>
                   <div className={styles.contactIcon}>💼</div>
                   <h3 className={styles.contactInfoTitle}>LinkedIn</h3>
-                  <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" className={styles.contactInfoLink}>
+                  <a href="https://www.linkedin.com/in/shotomoriyama/" target="_blank" rel="noopener noreferrer" className={styles.contactInfoLink}>
                     Connect on LinkedIn
                   </a>
                 </div>
@@ -246,7 +246,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 <div className={styles.contactInfoCard}>
                   <div className={styles.contactIcon}>🐙</div>
                   <h3 className={styles.contactInfoTitle}>GitHub</h3>
-                  <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className={styles.contactInfoLink}>
+                  <a href="https://github.com/shotocodes" target="_blank" rel="noopener noreferrer" className={styles.contactInfoLink}>
                     View My Work
                   </a>
                 </div>
@@ -254,8 +254,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 <div className={styles.contactInfoCard}>
                   <div className={styles.contactIcon}>𝕏</div>
                   <h3 className={styles.contactInfoTitle}>X (Twitter)</h3>
-                  <a href="https://x.com/yourusername" target="_blank" rel="noopener noreferrer" className={styles.contactInfoLink}>
-                    @yourusername
+                  <a href="https://x.com/ShotoMoriyama" target="_blank" rel="noopener noreferrer" className={styles.contactInfoLink}>
+                    @ShotoMoriyama
+                  </a>
+                </div>
+
+                <div className={styles.contactInfoCard}>
+                  <div className={styles.contactIcon}>📸</div>
+                  <h3 className={styles.contactInfoTitle}>Instagram</h3>
+                  <a href="https://www.instagram.com/sh0t0x72/" target="_blank" rel="noopener noreferrer" className={styles.contactInfoLink}>
+                    @sh0t0x72
                   </a>
                 </div>
               </div>

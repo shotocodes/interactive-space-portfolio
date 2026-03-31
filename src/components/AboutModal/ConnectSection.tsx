@@ -85,7 +85,7 @@ export default function ConnectSection() {
         {/* SNSリンク */}
         <div className={`${styles.socialGrid} ${isTypingComplete ? styles.fadeIn : ''}`}>
           <a
-            href="https://x.com/SOAR_C72"
+            href="https://x.com/ShotoMoriyama"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
@@ -99,6 +99,14 @@ export default function ConnectSection() {
             className={styles.socialLink}
           >
             GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/shotomoriyama/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.socialLink}
+          >
+            LinkedIn
           </a>
           <a
             href="https://www.instagram.com/sh0t0x72/"
