@@ -1,6 +1,61 @@
 /* app/globals.css */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Orbitron:wght@400..900&display=swap');
 
+:root {
+  /* Background colors */
+  --bg-gradient-start: #1a1a2e;
+  --bg-gradient-mid: #16213e;
+  --bg-gradient-end: #0f0f0f;
+  --bg-darkest: #0a0a0a;
+  --bg-dark: #141414;
+
+  /* Primary accent */
+  --accent-primary: #e6ff28;
+  --accent-primary-alt: #e6ff2b;
+
+  /* Planet / section colors */
+  --color-about: #ff6b6b;
+  --color-projects: #ff9500;
+  --color-services: #00d4ff;
+  --color-contact: #00ff88;
+  --color-sns: #1da1f2;
+  --color-blog: #ff6b35;
+
+  /* Text colors */
+  --text-primary: #f9f7f2;
+  --text-white: white;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --text-dim: rgba(255, 255, 255, 0.4);
+  --text-slider: #333;
+
+  /* Glass / translucent */
+  --glass-light: rgba(255, 255, 255, 0.1);
+  --glass-medium: rgba(255, 255, 255, 0.2);
+  --glass-strong: rgba(255, 255, 255, 0.3);
+  --glass-hover: rgba(255, 255, 255, 0.4);
+
+  /* Overlay */
+  --overlay-dark: rgba(0, 0, 0, 0.7);
+  --overlay-darker: rgba(0, 0, 0, 0.85);
+  --overlay-darkest: rgba(0, 0, 0, 0.95);
+
+  /* Shadows */
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.4);
+  --shadow-strong: rgba(0, 0, 0, 0.5);
+
+  /* Fonts */
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Helvetica Neue", Arial, sans-serif;
+  --font-jp: "Noto Sans JP", sans-serif;
+
+  /* Spacing */
+  --radius-sm: 5px;
+  --radius-md: 15px;
+  --radius-lg: 20px;
+  --radius-full: 50%;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -8,9 +63,9 @@
 }
 
 body {
-  background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f0f0f 100%);
+  background: radial-gradient(ellipse at center, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
   overflow: hidden;
-  font-family: "Orbitron", sans-serif;
+  font-family: var(--font-display);
   height: 100vh;
   cursor: none;
 }
@@ -26,7 +81,7 @@ body {
   position: fixed;
   width: 25px;
   height: 25px;
-  background: radial-gradient(circle, #e6ff28 0%, transparent 70%);
+  background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
@@ -50,14 +105,14 @@ body {
   position: absolute;
   bottom: 30px;
   left: 30px;
-  color: #f9f7f2;
+  color: var(--text-primary);
   pointer-events: none;
   z-index: 1001;
 }
 
 .left-info h1 {
   font-size: 2.5rem;
-  font-family: "Orbitron", sans-serif;
+  font-family: var(--font-display);
   font-weight: 900;
   margin-bottom: 0.2rem;
   text-shadow: 0 0 20px #024550;
@@ -74,10 +129,10 @@ body {
 .left-info .edition {
   font-size: 0.7rem;
   opacity: 0.6;
-  font-family: "Orbitron", monospace;
+  font-family: var(--font-display);
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
-  color: #e6ff28;
+  color: var(--accent-primary);
   text-shadow: 0 0 10px rgba(230, 255, 40, 0.3);
 }
 
@@ -92,7 +147,7 @@ body {
   position: absolute;
   bottom: 30px;
   right: 30px;
-  color: #f9f7f2;
+  color: var(--text-primary);
   pointer-events: none;
   text-align: right;
   max-width: 300px;
@@ -103,7 +158,7 @@ body {
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #e6ff28;
+  color: var(--accent-primary);
   text-shadow: 0 0 10px rgba(230, 255, 40, 0.3);
 }
 
@@ -151,10 +206,10 @@ body {
   position: absolute;
   top: 30px;
   right: 30px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-light);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border: 1px solid var(--glass-medium);
+  border-radius: var(--radius-md);
   padding: 20px;
   color: white;
   min-width: 200px;
@@ -257,10 +312,10 @@ body {
   top: 20px;
   left: 20px;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--overlay-dark);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border: 1px solid var(--glass-medium);
+  border-radius: var(--radius-md);
   padding: 20px;
   color: white;
   pointer-events: all;
@@ -398,10 +453,10 @@ input[type="range"]::-moz-range-thumb {
 .side-icon-button {
   width: 50px;
   height: 50px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-light);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  border: 1px solid var(--glass-medium);
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -414,9 +469,9 @@ input[type="range"]::-moz-range-thumb {
 
 .side-icon-button:hover {
   transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background: var(--glass-medium);
+  border-color: var(--glass-hover);
+  box-shadow: 0 5px 15px var(--shadow-dark);
 }
 
 /* 右サイドナビゲーション */
@@ -435,10 +490,10 @@ input[type="range"]::-moz-range-thumb {
 .right-side-icon-button {
   width: 50px;
   height: 50px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-light);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  border: 1px solid var(--glass-medium);
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -451,9 +506,9 @@ input[type="range"]::-moz-range-thumb {
 
 .right-side-icon-button:hover {
   transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background: var(--glass-medium);
+  border-color: var(--glass-hover);
+  box-shadow: 0 5px 15px var(--shadow-dark);
 }
 
 /* 言語切り替えスイッチ */
@@ -468,8 +523,8 @@ input[type="range"]::-moz-range-thumb {
   position: relative;
   width: 60px;
   height: 30px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  background: var(--glass-medium);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -643,7 +698,7 @@ input[type="range"]::-moz-range-thumb {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
+  background: var(--overlay-darker);
   backdrop-filter: blur(10px);
   z-index: 9999;
   display: flex;
@@ -671,7 +726,7 @@ input[type="range"]::-moz-range-thumb {
   background: rgba(26, 26, 46, 0.95);
   backdrop-filter: blur(30px);
   border: 1px solid rgba(230, 255, 40, 0.3);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
               0 0 40px rgba(230, 255, 40, 0.1);
   animation: slideUp 0.4s ease;
@@ -695,10 +750,10 @@ input[type="range"]::-moz-range-thumb {
   right: 20px;
   width: 40px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  color: white;
+  background: var(--glass-light);
+  border: 1px solid var(--glass-medium);
+  border-radius: var(--radius-full);
+  color: var(--text-white);
   font-size: 20px;
   cursor: pointer;
   z-index: 10;
@@ -710,7 +765,7 @@ input[type="range"]::-moz-range-thumb {
 
 .modal-close-button:hover {
   background: rgba(230, 255, 40, 0.2);
-  border-color: #e6ff28;
+  border-color: var(--accent-primary);
   transform: rotate(90deg);
 }
 
@@ -718,7 +773,7 @@ input[type="range"]::-moz-range-thumb {
   max-height: 90vh;
   overflow-y: auto;
   padding: 60px 50px 40px;
-  color: #f9f7f2;
+  color: var(--text-primary);
 }
 
 /* スクロールバーカスタマイズ */
@@ -749,30 +804,27 @@ input[type="range"]::-moz-range-thumb {
 
 /* About - 赤ピンクのグロー（変更なし） */
 .planet-info-panel.glow-about {
-  border-color: #ff6b6b !important;
+  border-color: var(--color-about) !important;
   border-width: 2px !important;
-  box-shadow: 0 0 20px #ff6b6b, 0 0 40px rgba(255, 107, 107, 0.4) !important;
+  box-shadow: 0 0 20px var(--color-about), 0 0 40px rgba(255, 107, 107, 0.4) !important;
 }
 
-/* Projects - オレンジのグロー（新） */
 .planet-info-panel.glow-projects {
-  border-color: #ff9500 !important;
+  border-color: var(--color-projects) !important;
   border-width: 2px !important;
-  box-shadow: 0 0 20px #ff9500, 0 0 40px rgba(255, 149, 0, 0.4) !important;
+  box-shadow: 0 0 20px var(--color-projects), 0 0 40px rgba(255, 149, 0, 0.4) !important;
 }
 
-/* Services - 明るい青のグロー（新） */
 .planet-info-panel.glow-services {
-  border-color: #00d4ff !important;
+  border-color: var(--color-services) !important;
   border-width: 2px !important;
-  box-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(0, 212, 255, 0.4) !important;
+  box-shadow: 0 0 20px var(--color-services), 0 0 40px rgba(0, 212, 255, 0.4) !important;
 }
 
-/* Contact - 明るい緑のグロー（新） */
 .planet-info-panel.glow-contact {
-  border-color: #00ff88 !important;
+  border-color: var(--color-contact) !important;
   border-width: 2px !important;
-  box-shadow: 0 0 20px #00ff88, 0 0 40px rgba(0, 255, 136, 0.4) !important;
+  box-shadow: 0 0 20px var(--color-contact), 0 0 40px rgba(0, 255, 136, 0.4) !important;
 }
 
 /*
@@ -783,23 +835,21 @@ input[type="range"]::-moz-range-thumb {
 
 /* ControlPanel が開いてる時（PC・スマホ共通） */
 .control-panel.show {
-  border-color: #e6ff2b !important;
+  border-color: var(--accent-primary-alt) !important;
   border-width: 2px !important;
-  box-shadow: 0 0 20px #e6ff2b, 0 0 40px rgba(230, 255, 43, 0.4) !important;
+  box-shadow: 0 0 20px var(--accent-primary-alt), 0 0 40px rgba(230, 255, 43, 0.4) !important;
 }
 
-/* SNS - 青のグロー */
 .planet-info-panel.glow-sns {
-  border-color: #1da1f2 !important;
+  border-color: var(--color-sns) !important;
   border-width: 2px !important;
-  box-shadow: 0 0 20px #1da1f2, 0 0 40px rgba(29, 161, 242, 0.4) !important;
+  box-shadow: 0 0 20px var(--color-sns), 0 0 40px rgba(29, 161, 242, 0.4) !important;
 }
 
-/* Blog - オレンジのグロー */
 .planet-info-panel.glow-blog {
-  border-color: #ff6b35 !important;
+  border-color: var(--color-blog) !important;
   border-width: 2px !important;
-  box-shadow: 0 0 20px #ff6b35, 0 0 40px rgba(255, 107, 53, 0.4) !important;
+  box-shadow: 0 0 20px var(--color-blog), 0 0 40px rgba(255, 107, 53, 0.4) !important;
 }
 
 
