@@ -1,5 +1,6 @@
 // app/layout.tsx
 import type { Metadata, Viewport } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 
 // Viewport設定（Next.js 14+の推奨方法）
@@ -76,7 +77,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        {children}
+        <GoogleAnalytics gaId="G-EWC017P60D" />
+      </body>
     </html>
   );
 }
