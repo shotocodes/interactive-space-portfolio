@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const data = await resend.emails.send({
-      from: 'noreply@shoto.tech',
+      from: 'noreply@shotomoriyama.com',
       to: '0sdm0.moriyama@gmail.com',
       replyTo: email,
       subject: `[Portfolio Contact] ${sanitize(name)} - ${sanitize(subject || 'No Subject')}`,
