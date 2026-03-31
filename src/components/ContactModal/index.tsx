@@ -367,7 +367,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <div className={styles.ctaSection}>
                 <p className={styles.ctaText}>
                   Ready to bring your vision to life?<br />
-                  Let's create something amazing together.
+                  Let&apos;s create something amazing together.
                 </p>
                 <button className={styles.ctaButton} onClick={() => {
                   document.querySelector(`.${styles.contactForm}`)?.scrollIntoView({ behavior: 'smooth' });

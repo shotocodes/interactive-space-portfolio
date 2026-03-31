@@ -71,7 +71,7 @@ export default function ConnectSection() {
             Thanks for reading my story.
           </p>
           <p className={styles.messageText}>
-            Follow me on social media to see what I'm building next.
+            Follow me on social media to see what I&apos;m building next.
           </p>
 
         </div>

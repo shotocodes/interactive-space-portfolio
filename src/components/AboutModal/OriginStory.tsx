@@ -92,7 +92,7 @@ export default function OriginStory() {
               his freedom—something inside me sparked.
             </p>
             <p className={styles.storyText}>
-              <span className={styles.highlight}>"I want to live like this."</span>
+              <span className={styles.highlight}>&ldquo;I want to live like this.&rdquo;</span>
             </p>
           </div>
 
@@ -107,7 +107,7 @@ export default function OriginStory() {
           </div>
 
           <div className={styles.quote}>
-            "So I tried everything: Video editing. Writing. SNS marketing. Design. Programming."
+            &ldquo;So I tried everything: Video editing. Writing. SNS marketing. Design. Programming.&rdquo;
           </div>
 
           <div className={styles.storyBlock}>
@@ -133,7 +133,7 @@ export default function OriginStory() {
               And one day, giving back to those who helped me. Showing others that this life is possible.
             </p>
             <p className={styles.storyText}>
-              <span className={styles.highlight}>That's why I'm here.</span>
+              <span className={styles.highlight}>That&apos;s why I&apos;m here.</span>
             </p>
           </div>
         </div>
