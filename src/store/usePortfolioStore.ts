@@ -1,5 +1,5 @@
 // store/usePortfolioStore.ts
-import { create } from 'zustand';
+import { createWithEqualityFn } from 'zustand/traditional';
 import { Language, Config, PlanetInfoData } from '@/types';
 import { defaultConfig } from '@/lib/data/planetData';
 
@@ -35,8 +35,8 @@ interface PortfolioStore {
   setIsTransitioning: (transitioning: boolean) => void;
 }
 
-export const usePortfolioStore = create<PortfolioStore>((set, get) => ({
-  language: 'ja',
+export const usePortfolioStore = createWithEqualityFn<PortfolioStore>((set, get) => ({
+  language: 'en',
   config: defaultConfig,
   showControls: false,
   showPlanetInfo: false,
@@ -48,24 +48,15 @@ export const usePortfolioStore = create<PortfolioStore>((set, get) => ({
   showContactModal: false,
   isTransitioning: false,
 
-  setLanguage: (lang) => {
-    console.log('Store: setLanguage', lang);
-    set({ language: lang });
-  },
+  setLanguage: (lang) => set({ language: lang }),
 
   toggleLanguage: () => {
-    const currentLang = get().language;
-    const newLang = currentLang === 'ja' ? 'en' : 'ja';
-    console.log('Store: toggleLanguage', currentLang, '->', newLang);
+    const newLang = get().language === 'ja' ? 'en' : 'ja';
     set({ language: newLang });
   },
 
   updateConfig: (key, value) => {
-    console.log('Store: updateConfig called', key, value);
-    const currentConfig = get().config;
-    const newConfig = { ...currentConfig, [key]: value };
-    console.log('Store: new config', newConfig);
-    set({ config: newConfig });
+    set({ config: { ...get().config, [key]: value } });
   },
 
   setShowControls: (show) => set({ showControls: show }),

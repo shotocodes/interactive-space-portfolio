@@ -301,6 +301,69 @@
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* Tech tags */
+.techTag {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  display: inline-block;
+}
+
+.techTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+}
+
+/* Result text */
+.resultText {
+  font-size: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.resultClient {
+  color: #00d4ff;
+}
+
+.resultPersonal {
+  color: #00ff88;
+}
+
+/* Testimonial */
+.testimonial {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.6rem;
+  font-style: italic;
+}
+
+/* Visit link */
+.visitLink {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #e6ff28;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.visitLink:hover {
+  opacity: 0.7;
+}
+
+/* CTA area */
+.ctaArea {
+  text-align: center;
+  margin-top: 3rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* Backボタン */
 .backButton {
   padding: 15px 40px;

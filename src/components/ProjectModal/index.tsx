@@ -169,39 +169,22 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                     <div className={styles.previewIcon}>💼</div>
                     <h3 className={styles.previewTitle}>{work.title}</h3>
                     <p className={styles.previewDescription}>{work.description}</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.8rem' }}>
+                    <div className={styles.techTags}>
                       {work.tech.map((t, i) => (
-                        <span key={i} style={{
-                          fontSize: '0.7rem',
-                          padding: '0.2rem 0.5rem',
-                          background: 'rgba(255,255,255,0.08)',
-                          borderRadius: '4px',
-                          color: 'rgba(255,255,255,0.6)'
-                        }}>{t}</span>
+                        <span key={i} className={styles.techTag}>{t}</span>
                       ))}
                     </div>
-                    <p style={{ fontSize: '0.8rem', color: '#00d4ff', marginTop: '0.8rem' }}>
+                    <p className={`${styles.resultText} ${styles.resultClient}`}>
                       {work.result}
                     </p>
-                    <p style={{
-                      fontSize: '0.75rem',
-                      color: 'rgba(255,255,255,0.4)',
-                      marginTop: '0.6rem',
-                      fontStyle: 'italic'
-                    }}>
+                    <p className={styles.testimonial}>
                       &ldquo;{work.testimonial}&rdquo;
                     </p>
                     <a
                       href={work.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-block',
-                        marginTop: '1rem',
-                        fontSize: '0.8rem',
-                        color: '#e6ff28',
-                        textDecoration: 'none'
-                      }}
+                      className={styles.visitLink}
                     >
                       Visit Site →
                     </a>
@@ -222,31 +205,19 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                     <div className={styles.previewIcon}>🚀</div>
                     <h3 className={styles.previewTitle}>{project.title}</h3>
                     <p className={styles.previewDescription}>{project.description}</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.8rem' }}>
+                    <div className={styles.techTags}>
                       {project.tech.map((t, i) => (
-                        <span key={i} style={{
-                          fontSize: '0.7rem',
-                          padding: '0.2rem 0.5rem',
-                          background: 'rgba(255,255,255,0.08)',
-                          borderRadius: '4px',
-                          color: 'rgba(255,255,255,0.6)'
-                        }}>{t}</span>
+                        <span key={i} className={styles.techTag}>{t}</span>
                       ))}
                     </div>
-                    <p style={{ fontSize: '0.8rem', color: '#00ff88', marginTop: '0.8rem' }}>
+                    <p className={`${styles.resultText} ${styles.resultPersonal}`}>
                       {project.status}
                     </p>
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-block',
-                        marginTop: '0.6rem',
-                        fontSize: '0.8rem',
-                        color: '#e6ff28',
-                        textDecoration: 'none'
-                      }}
+                      className={styles.visitLink}
                     >
                       Visit Site →
                     </a>
@@ -255,7 +226,7 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
               </div>
 
               {/* CTA */}
-              <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+              <div className={styles.ctaArea}>
                 <button
                   className={styles.backButton}
                   onClick={() => {
@@ -266,7 +237,6 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                       setIsTransitioning(false);
                     }, 300);
                   }}
-                  style={{ marginRight: '1rem' }}
                 >
                   Start a Project →
                 </button>

@@ -100,11 +100,7 @@ export default function ControlPanel() {
           max="3"
           value={config.orbitSpeed}
           step="0.1"
-          onChange={(e) => {
-            const newValue = parseFloat(e.target.value);
-            console.log('Orbit speed changed to:', newValue);
-            updateConfig('orbitSpeed', newValue);
-          }}
+          onChange={(e) => updateConfig('orbitSpeed', parseFloat(e.target.value))}
         />
       </div>
 
