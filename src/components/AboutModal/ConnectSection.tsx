@@ -74,12 +74,6 @@ export default function ConnectSection() {
             Follow me on social media to see what I'm building next.
           </p>
 
-          <p className={styles.messageTextJa}>
-            ここまで見てくれてありがとうございます。
-          </p>
-          <p className={styles.messageTextJa}>
-            これからの活動はSNSで発信していきます。
-          </p>
         </div>
 
         {/* SNSリンク */}

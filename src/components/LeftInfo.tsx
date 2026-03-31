@@ -7,7 +7,7 @@ export default function LeftInfo() {
       <h1>SHOTO MORIYAMA</h1>
       <p className="subtitle">Portfolio</p>
       <p className="edition">Edition 002</p>
-      <p className="tagline">創造と技術の融合で、未来を描く</p>
+      <p className="tagline">Design × Development × Automation</p>
     </div>
   );
 }

@@ -50,10 +50,10 @@ export default function ControlPanel() {
         // リンクをコピー
         if (planetInfoData.links) {
           updatedData.links = planetInfoData.links.map(link => {
-            if (actionKey === 'blog' && (link.name.includes('ブログ') || link.name.includes('Blog'))) {
+            if (actionKey === 'blog' && link.name.includes('Sho-tolog')) {
               return {
                 ...link,
-                name: language === 'ja' ? '技術ブログ' : 'Tech Blog'
+                name: 'Sho-tolog'
               };
             }
             return link;

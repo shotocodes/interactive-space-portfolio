@@ -27,6 +27,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const fullText = 'Start Your Project';
 
@@ -67,12 +70,34 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     return () => clearInterval(typeInterval);
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // メール送信ロジック（後で実装）
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! I will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setSubmitStatus('success');
+        setSubmitMessage('Thank you! Your message has been sent. I will get back to you within 24 hours.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setSubmitStatus('error');
+      setSubmitMessage('Network error. Please try again or email me directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -215,8 +240,29 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   />
                 </div>
 
-                <button type="submit" className={styles.submitButton}>
-                  Send Message →
+                {submitStatus !== 'idle' && (
+                  <div style={{
+                    padding: '1rem',
+                    marginBottom: '1rem',
+                    borderRadius: '8px',
+                    background: submitStatus === 'success'
+                      ? 'rgba(0, 255, 136, 0.1)'
+                      : 'rgba(255, 107, 107, 0.1)',
+                    border: `1px solid ${submitStatus === 'success' ? 'rgba(0, 255, 136, 0.3)' : 'rgba(255, 107, 107, 0.3)'}`,
+                    color: submitStatus === 'success' ? '#00ff88' : '#ff6b6b',
+                    fontSize: '0.9rem'
+                  }}>
+                    {submitMessage}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={isSubmitting}
+                  style={{ opacity: isSubmitting ? 0.6 : 1 }}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message →'}
                 </button>
               </form>
             </div>

@@ -58,13 +58,15 @@ export default function Skills() {
   };
 
   const skills = [
-    { name: 'Next.js', percentage: 80, icon: '⚡' },
-    { name: 'React', percentage: 80, icon: '⚛️' },
-    { name: 'TypeScript', percentage: 80, icon: '📘' },
-    { name: 'Three.js', percentage: 65, icon: '🎨' },
-    { name: 'UI/UX Design', percentage: 70, icon: '🎯' },
-    { name: 'Canva', percentage: 80, icon: '🖼️' },
-    { name: 'AI', percentage: 70, icon: '🤖' }
+    { name: 'Next.js', percentage: 90, icon: '⚡', detail: 'Primary framework' },
+    { name: 'React', percentage: 90, icon: '⚛️', detail: 'Component architecture' },
+    { name: 'TypeScript', percentage: 80, icon: '📘', detail: 'Type-safe development' },
+    { name: 'Tailwind CSS', percentage: 90, icon: '🎨', detail: 'Rapid UI styling' },
+    { name: 'Three.js', percentage: 70, icon: '🌐', detail: '3D web experiences' },
+    { name: 'WordPress', percentage: 80, icon: '📝', detail: 'CMS & custom themes' },
+    { name: 'Figma', percentage: 75, icon: '🎯', detail: 'UI/UX prototyping' },
+    { name: 'AI Tools', percentage: 80, icon: '🤖', detail: 'Claude, Cursor, v0' },
+    { name: 'Framer Motion', percentage: 85, icon: '✨', detail: 'Smooth animations' }
   ];
 
   return (
@@ -122,8 +124,8 @@ export default function Skills() {
               {/* スキル名 */}
               <h3 className={styles.skillName}>{skill.name}</h3>
 
-              {/* レベル表示 */}
-              <p className={styles.skillLevel}>{getSkillLevel(skill.percentage)}</p>
+              {/* 詳細 */}
+              <p className={styles.skillLevel}>{skill.detail}</p>
             </div>
           ))}
         </div>

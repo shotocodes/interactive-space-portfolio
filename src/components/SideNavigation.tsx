@@ -58,7 +58,7 @@ export default function SideNavigation() {
       <button
         className="side-icon-button"
         onClick={() => handleAction('controls')}
-        title="コントロール"
+        title="Controls"
       >
         ⚙️
       </button>

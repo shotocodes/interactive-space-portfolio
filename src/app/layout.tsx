@@ -10,42 +10,44 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
-// Metadata設定（OGP含む）
 export const metadata: Metadata = {
-  title: 'Shoto Moriyama | Interactive Space Portfolio',
-  description: 'Solar System Portfolio - 地動説をコンセプトにしたインタラクティブポートフォリオ。Web開発、デザイン、技術スキルを宇宙空間で表現。',
-  keywords: ['ポートフォリオ', 'Web開発', 'フロントエンド', 'Three.js', 'Next.js', 'インタラクティブ'],
+  title: 'Shoto Moriyama | Web Developer & Designer',
+  description: 'Full-stack web developer and designer based in Tokyo & Bangkok. Specializing in Next.js, React, Three.js, and modern web experiences. Design × Development × Automation.',
+  keywords: ['web developer', 'web designer', 'freelance', 'Next.js', 'React', 'Three.js', 'TypeScript', 'portfolio'],
   authors: [{ name: 'Shoto Moriyama' }],
   creator: 'Shoto Moriyama',
   publisher: 'Shoto Moriyama',
 
-  // OGP設定（絶対URLに変更）
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+
   openGraph: {
     type: 'website',
-    locale: 'ja_JP',
+    locale: 'en_US',
     url: 'https://shoto.tech',
     siteName: 'Shoto Moriyama Portfolio',
-    title: 'Shoto Moriyama | Interactive Space Portfolio',
-    description: 'Solar System Portfolio - 地動説をコンセプトにしたインタラクティブポートフォリオ',
+    title: 'Shoto Moriyama | Web Developer & Designer',
+    description: 'Full-stack web developer and designer. Design × Development × Automation.',
     images: [
       {
-        url: 'https://shoto.tech/og-image.png', // 絶対URLに変更
+        url: 'https://shoto.tech/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Shoto Moriyama Portfolio - Solar System',
+        alt: 'Shoto Moriyama - Web Developer & Designer',
       },
     ],
   },
 
-  // Twitter Card（絶対URLに変更）
   twitter: {
     card: 'summary_large_image',
-    title: 'Shoto Moriyama | Interactive Space Portfolio',
-    description: 'Solar System Portfolio - 地動説をコンセプトにしたインタラクティブポートフォリオ',
-    images: ['https://shoto.tech/og-image.png'], // 絶対URLに変更
+    title: 'Shoto Moriyama | Web Developer & Designer',
+    description: 'Full-stack web developer and designer. Design × Development × Automation.',
+    images: ['https://shoto.tech/og-image.png'],
+    creator: '@ShotoMoriyama',
   },
 
-  // その他
   robots: {
     index: true,
     follow: true,
@@ -65,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
