@@ -1,8 +1,6 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const sanitize = (str: string) =>
   String(str)
     .replace(/&/g, '&amp;')
@@ -32,6 +30,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const data = await resend.emails.send({
       from: 'noreply@shoto.tech',
       to: '0sdm0.moriyama@gmail.com',
